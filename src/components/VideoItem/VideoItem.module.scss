@@ -1,0 +1,51 @@
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .thumb{
+    width: 100%;
+    padding-top: 56.25%;
+    background: var(--grayaa);
+    position: relative;
+
+    &>img{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+  
+  &.horizontal{
+    flex-direction: row;
+    width: 100%;
+    padding-top: 28.125%;
+    position: relative;
+
+    &>.thumb{
+      $thumb-width: 45%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: $thumb-width;
+      padding-top: calc(0.5625 *  $thumb-width);
+
+      &>img{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+    &>.text-area{
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+    }
+  }
+}

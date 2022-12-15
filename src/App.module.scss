@@ -1,0 +1,31 @@
+.app{
+  display: flex;
+  flex-direction: row;
+  background: var(--black18);
+  max-width: 100%;
+  position: relative;
+}
+
+.header{
+  width: 100%;
+  padding-right: 40px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--black18);
+  z-index: 10;
+}
+
+.sidebar{
+  background: var(--black18);
+  z-index: 5;
+  &.hidden{
+    display: none;
+  }
+}
+
+main{
+  margin-top: 50px;
+  flex-grow: 1;
+}

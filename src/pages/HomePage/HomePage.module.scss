@@ -1,0 +1,11 @@
+.shortcuts{
+  flex:1;
+}
+
+.videos{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}

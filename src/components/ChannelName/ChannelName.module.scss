@@ -1,0 +1,14 @@
+.wrapper{
+  width: 100%;
+  font-size: 0.75rem;
+  color: var(--grayaa);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+
+  &>svg{
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+}

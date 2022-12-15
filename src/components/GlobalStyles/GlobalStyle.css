@@ -1,0 +1,24 @@
+:root{
+  --black12: #121212;
+  --black18: #181818;
+  --black21: #212121;
+  --black24: #242424;
+  --black32: #323232;
+  --black38: #383838;
+  --black47: #474747;
+  --white: #fff;
+  --grayaa: #aaa;
+  --blue: #3DA6FF;
+}
+
+input{
+  border: none;
+}
+input:focus{
+  outline: none;
+}
+
+a{
+  color: inherit;
+  text-decoration: none;
+}
