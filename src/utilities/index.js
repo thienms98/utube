@@ -46,3 +46,15 @@ export const datetimeFormat = (input) => {
   const [day, month, date, year] = datetime.toDateString().split(' ');
   return `${month} ${date}, ${year}`;
 };
+
+export const secToHMS = (totalSec) => {
+  const hour = Math.floor(totalSec / 3600);
+  const min = Math.floor((totalSec - hour * 3600) / 60);
+  const sec = totalSec - hour * 3600 - min * 60;
+
+  return { hour, min, sec };
+};
+
+export const formatNumberLowerThan10MustHave0Before = (num) => {
+  return num < 10 ? `0${num}` : num;
+};

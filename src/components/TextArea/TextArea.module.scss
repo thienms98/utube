@@ -9,6 +9,12 @@
     height: 32px;
     border-radius: 50px;
     background: #c4c4c4;
+    overflow: hidden;
+
+    img{
+      width: 100%;
+      object-fit: contain;
+    }
   }
 
   .text{
@@ -17,13 +23,18 @@
 
   .title{
     margin-bottom: 7px;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: var(--white);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
   .views{
     margin-top: -2px;
     color: var(--grayaa);
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     display: flex;
     align-items: center;
   }
@@ -37,9 +48,6 @@
   }
 
   &.no-image{
-    .image{
-      display: none;
-    }
     .title{
       line-height: 1.5em;
       height: 3em;

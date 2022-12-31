@@ -11,6 +11,15 @@
   --blue: #3DA6FF;
 }
 
+html{
+  font-size: 20px;
+}
+
+body{
+  background: var(--black18);
+  color: var(--white)
+}
+
 input{
   border: none;
 }

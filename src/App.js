@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Redirect } from 'react-router-dom';
 
 import Header from './Layouts/Header';
 import Sidebar from './Layouts/Sidebar';
 
 import HomePage from './pages/HomePage';
 import Watch from './pages/Watch';
+import Channel from './pages/Channel';
 
 import classNames from 'classnames/bind';
 import styles from './App.module.scss';
@@ -17,8 +18,8 @@ function App() {
 
   useEffect(() => {
     if (location !== '/') {
+      setSidebarVisible(false);
     }
-    setSidebarVisible(false);
   }, [location]);
 
   const toggleSidebar = () => {
@@ -38,7 +39,10 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
-          <Route path="/watch/:type/:id" element={<Watch />}></Route>
+          <Route path="/watch/playlist/:playlistId" element={<Watch type={'redirect'} />} />
+          <Route path="/watch/playlist/:playlistId/:index" element={<Watch type={'playlist'} />} />
+          <Route path="/watch/video/:videoId" element={<Watch type={'video'} />} />
+          <Route path="/channel/:channelId/*" element={<Channel />}></Route>
         </Routes>
       </main>
     </div>

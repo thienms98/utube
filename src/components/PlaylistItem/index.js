@@ -4,11 +4,11 @@ import styles from './PlaylistItem.module.scss';
 import { Playlist } from '../../assets/icon';
 
 const cx = classNames.bind(styles);
-function PlaylistItem({ id, title, thumbnailUrl, author, horizontal }) {
+function PlaylistItem({ id, title, thumbnailUrl, author, hor }) {
   const navigate = useNavigate();
   return (
     <div
-      className={cx('wrapper', { horizontal: horizontal })}
+      className={cx('wrapper', { horizontal: hor })}
       onClick={() => {
         navigate(`/watch/playlist/${id}`);
       }}

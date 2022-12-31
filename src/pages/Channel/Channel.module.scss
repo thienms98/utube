@@ -1,0 +1,133 @@
+$side-padding: 105px;
+$tab-item-width: 150px;
+
+.wrapper{
+  width: 100%;
+}
+
+.banner{
+  width: 100%;
+  padding-top: 16.5%;
+  position: relative;
+
+  .image{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    img{
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .links{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px;
+    border-radius: 4px;
+
+    a{
+      font-size: 0.825rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+.info{
+  padding: 20px $side-padding;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  box-sizing: border-box;
+
+  .avatar{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img{
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .text{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px 0;
+
+    .title{
+      font-size: 1.5rem;
+    }
+    .username{
+      font-size: 0.875rem;
+      color: var(--grayaa);
+    }
+    .subcribers{
+      font-size: 1.125rem;
+      color: var(--grayaa);
+    }
+  }
+}
+
+.tabs{
+  padding: 0 $side-padding;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  height: 30px;
+
+  &::before{
+    content: '';
+    width: 100%;
+    height: 1px;
+    background: var(--grayaa);
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    opacity: 0.2;
+  }
+
+  .tab{
+    width: $tab-item-width;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    text-transform: uppercase;
+    color: var(--grayaa);
+
+    &.active{
+      color: var(--white)
+    }
+  }
+  .tab-cursor{
+    position: absolute;
+    top: 30px;
+    left: $side-padding;
+    background: white;
+    height: 3px;
+    width: $tab-item-width;
+    transform: translateX(calc($tab-item-width * var(--index)));
+    transition: all 0.5s linear;
+  }
+}
+
+.content{
+  margin-top: 30px;
+  padding: 0 $side-padding;
+}

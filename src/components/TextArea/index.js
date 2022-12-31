@@ -4,12 +4,12 @@ import ChannelName from '../ChannelName';
 
 const cx = classNames.bind(styles);
 
-function TextArea({ author, avatar, title, views, date, channelVerified, noImage }) {
+function TextArea({ author, avatarUrl, title, views, date, channelVerified, noImage }) {
   return (
     <div className={cx('wrapper', { 'no-image': noImage })}>
-      {noImage && (
+      {!noImage && (
         <div className={cx('image')}>
-          <img src={avatar.url} alt={author} />
+          <img src={avatarUrl} alt={author} />
         </div>
       )}
       <div className={cx('text')}>
