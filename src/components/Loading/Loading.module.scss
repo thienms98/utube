@@ -1,0 +1,39 @@
+.icon{
+  $size: var(--size);
+  $halfOfSize: calc($size / 2);
+  $dotColor: var(--dotColor);
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  background: transparent;
+  position: relative;
+  animation: rotating 1.5s ease-in-out infinite;
+  
+  &::before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+    height: 20%;
+    border-radius: 50%;
+    box-shadow: 
+      calc($halfOfSize * 0.8) 0 $dotColor,
+      calc($halfOfSize * 0.707 * 0.8) calc($halfOfSize * -0.707 * 0.8) $dotColor,
+      0 calc($halfOfSize * 0.8) $dotColor,
+      calc($halfOfSize * 0.707 * 0.8) calc($halfOfSize * 0.707 * 0.8) $dotColor,
+      calc($halfOfSize * -1 * 0.8) 0 $dotColor,
+      calc($halfOfSize * -0.707 * 0.8) calc($halfOfSize * -0.707 * 0.8) $dotColor,
+      0 calc($halfOfSize * -1 * 0.8) $dotColor;
+  }
+
+  @keyframes rotating{
+    0%{
+      transform: rotate(0deg);
+    }
+    100%{
+      transform: rotate(360deg);
+    }
+  }
+}

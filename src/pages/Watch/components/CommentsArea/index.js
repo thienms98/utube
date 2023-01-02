@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import Comment from '../Comment';
+import Loading from '../../../../components/Loading';
 import { nextVideoComments } from '../../data';
 
 import classNames from 'classnames/bind';
@@ -18,18 +19,22 @@ function CommentsArea({ videoComments, channelAvatar }) {
   useEffect(() => {
     const body = document.body;
     const height = Math.max(body.scrollHeight, body.offsetHeight);
+    let timeout;
     const scrollEvent = () => {
-      // if (window.innerHeight + window.scrollY >= height) {
-      //   console.log('reach destination');
-      //   setComments((prev) => prev.concat(nextVideoComments.comments));
-      //   setCursorNext(nextVideoComments.cursorNext);
-      //   if (nextVideoComments.filters) setFilters(nextVideoComments.filters);
-      // }
+      if (window.innerHeight + window.scrollY >= height) {
+        console.log('end of comment');
+
+        // setComments((prev) => prev.concat(nextVideoComments.comments));
+        // setCursorNext(nextVideoComments.cursorNext);
+        // if (nextVideoComments.filters) setFilters(nextVideoComments.filters);
+      }
     };
 
     if (cursorNext) window.addEventListener('scroll', scrollEvent);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     else window.removeEventListener('scroll', scrollEvent);
+
+    return () => {};
   }, []);
 
   return (

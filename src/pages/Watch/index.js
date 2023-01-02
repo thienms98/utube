@@ -12,6 +12,8 @@ import RelateContent from './components/RelateContent';
 import VideoDetails from './components/VideoDetails';
 import CommentsArea from './components/CommentsArea';
 import PlaylistVideos from './components/PlaylistVideos';
+import YTPlayer from './components/YTPlayer';
+import Loading from '../../components/Loading';
 
 import classNames from 'classnames/bind';
 import styles from './Watch.module.scss';
@@ -41,37 +43,31 @@ function Watch({ type }) {
   const [videoComments, setVideoComments] = useState(vidCmts);
   const [playlistItems, setPlaylistItems] = useState(pllItems);
   const [playlistIndex, setPlaylistIndex] = useState(params.index - 1);
+  const [tabActive, setTabActive] = useState(0);
+
+  const tabs = type === 'playlist' ? ['playlist', 'relate videos'] : ['relate videos'];
 
   const [videoId, setVideoId] = useState('');
 
-  // make iframe ratio to 16:9
-  const videoContainer = useRef(null);
-  const iFrame = useRef(null);
   useEffect(() => {
-    iFrame.current.width = videoContainer.current.offsetWidth;
-    iFrame.current.height = 0.5625 * iFrame.current.width;
-  }, [params]);
-
-  // useEffect(() => {
-  //   // get video details by videoId from url
-  //   fetch(`https://youtube138.p.rapidapi.com/video/details/?id=${videoId}&hl=en&gl=US`, options)
-  //     .then((res) => res.json())
-  //     .then((result) => {
-  //       setVideoDetails(result);
-  //       document.title = result.title;
-  //     })
-  //     .catch((err) => console.log('get nothing from the id'));
-
-  //   // get relate videos for videoId from url
-  //   fetch(`https://youtube138.p.rapidapi.com/video/related-contents/?id=${videoId}=en&gl=US`, options)
-  //     .then((res) => res.json())
-  //     .then((result) => setRelateVideos(result));
-
-  //   //get video comments for videoId from url
-  //   // fetch('fetch with id')
-  //   //   .then((res) => res.json())
-  //   //   .then((result) => setVideoComments(result));
-  // }, [videoId]);
+    document.title = videoDetails.title;
+    // get video details by videoId from url
+    // fetch(`https://youtube138.p.rapidapi.com/video/details/?id=${videoId}&hl=en&gl=US`, options)
+    //   .then((res) => res.json())
+    //   .then((result) => {
+    //     setVideoDetails(result);
+    //     document.title = result.title;
+    //   })
+    //   .catch((err) => console.log('get nothing from the id'));
+    // get relate videos for videoId from url
+    // fetch(`https://youtube138.p.rapidapi.com/video/related-contents/?id=${videoId}=en&gl=US`, options)
+    //   .then((res) => res.json())
+    //   .then((result) => setRelateVideos(result));
+    //get video comments for videoId from url
+    // fetch('fetch with id')
+    //   .then((res) => res.json())
+    //   .then((result) => setVideoComments(result));
+  }, [videoId]);
 
   //get playlist items for videoId from url
   // useEffect(() => {
@@ -92,28 +88,33 @@ function Watch({ type }) {
 
   // set video id for each time change the index of playlist
   useEffect(() => {
-    if (!!playlistItems.contents[playlistIndex]) setVideoId(playlistItems.contents[playlistIndex].video.videoId);
+    if (!!playlistItems.contents[playlistIndex]) {
+      navigate(`/watch/playlist/${params.playlistId}/${playlistIndex + 1}`);
+      setVideoId(playlistItems.contents[playlistIndex].video.videoId);
+    }
   }, [playlistIndex]);
 
   const indexChangeHandle = (idx) => {
-    console.log('changing playlist index: ', idx);
-    setPlaylistIndex(idx);
+    if (idx === undefined) {
+      setPlaylistIndex((prev) => prev + 1);
+    } else {
+      setPlaylistIndex(idx);
+    }
   };
 
-  console.log('realates', relateVideos);
+  // const nextVideo = () => {
+  //   if (type === 'video') {
+  //     setVideoId(() => {
+  //       if (!!relateVideos.contents[0].type === 'video') return relateVideos.contents[0].video.videoId;
+  //       if (!!relateVideos.contents[0].type === 'playlist') return relateVideos.contents[0].playlist.playlistId;
+  //     });
+  //   }
+  // };
 
   return (
     <div className={cx('wrapper')}>
-      <div className={cx('video')} ref={videoContainer}>
-        <iframe
-          width="1920"
-          src={`https://www.youtube.com/embed/${videoId}`}
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          autoPlay={1}
-          ref={iFrame}
-        ></iframe>
+      <div className={cx('video')}>
+        <YTPlayer videoId={videoId} title={videoDetails.title} indexChangeHandle={indexChangeHandle} />
 
         <div className={cx('video-details')}>
           <VideoDetails videoDetails={videoDetails} />
@@ -125,6 +126,19 @@ function Watch({ type }) {
       </div>
 
       <div className={cx('side-content')}>
+        {/* <div className={cx('tabs')}>
+          {tabs.map((tab, index) => {
+            return (
+              <div
+                className={cx('tab', { active: tab === tabs[tabActive] })}
+                key={tab}
+                onClick={() => setTabActive(index)}
+              >
+                {tab} {tab === tabs[tabActive] ? 'active' : null}
+              </div>
+            );
+          })}
+        </div> */}
         {type === 'playlist' ? (
           <div className={cx('playlist-items')}>
             <PlaylistVideos

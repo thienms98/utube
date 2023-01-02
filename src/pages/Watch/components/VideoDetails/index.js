@@ -10,7 +10,6 @@ const cx = classNames.bind(styles);
 
 function VideoDetails({ videoDetails }) {
   const [descriptionVisible, setDescriptionVisible] = useState(false);
-  console.log(descriptionVisible);
 
   return !videoDetails ? (
     'loading...'
