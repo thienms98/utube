@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/thienms98/utube/static/css/main.c1dd0fbc.css",
+    "main.css": "/thienms98/utube/static/css/main.7f74de46.css",
     "main.js": "/thienms98/utube/static/js/main.84437914.js",
     "static/js/787.d05c0dee.chunk.js": "/thienms98/utube/static/js/787.d05c0dee.chunk.js",
     "static/media/Youtube logo.svg": "/thienms98/utube/static/media/Youtube logo.cecdfa2bdc71274e573e7184e21ce987.svg",
@@ -24,12 +24,12 @@
     "static/media/down_arrow.svg": "/thienms98/utube/static/media/down_arrow.c3ad42d0594f9aeed791758bcbf8618b.svg",
     "static/media/your_video.svg": "/thienms98/utube/static/media/your_video.5ce52791eca2f5766bf8a6e17ecda9cc.svg",
     "static/media/home.svg": "/thienms98/utube/static/media/home.65abbab1aa4527a7becefdb6b8c58af1.svg",
-    "main.c1dd0fbc.css.map": "/thienms98/utube/static/css/main.c1dd0fbc.css.map",
+    "main.7f74de46.css.map": "/thienms98/utube/static/css/main.7f74de46.css.map",
     "main.84437914.js.map": "/thienms98/utube/static/js/main.84437914.js.map",
     "787.d05c0dee.chunk.js.map": "/thienms98/utube/static/js/787.d05c0dee.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c1dd0fbc.css",
+    "static/css/main.7f74de46.css",
     "static/js/main.84437914.js"
   ]
 }
