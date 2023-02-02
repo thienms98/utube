@@ -11,7 +11,7 @@ function YTPlayer({ videoId, title, indexChangeHandle }) {
         key={videoId}
         videoId={videoId} // defaults -> ''
         title={title.title} // defaults -> ''
-        loading={'loading...'} // defaults -> undefined
+        loading={'lazy'} // defaults -> undefined
         className={cx('player')}
         iframeClassName={cx('youtube-iframe')}
         opts={{

@@ -7,7 +7,7 @@ import TextArea from '../TextArea';
 
 const cx = classNames.bind(styles);
 
-function VideoItem({ id, title, thumbnailUrl, author, avatar, views, date, hor }) {
+function VideoItem({ id, title, thumbnailUrl, author, avatar, views, publishTime, hor }) {
   const navigate = useNavigate();
   return (
     <div
@@ -20,21 +20,22 @@ function VideoItem({ id, title, thumbnailUrl, author, avatar, views, date, hor }
         <img src={thumbnailUrl} alt={title} />
       </div>
       <div className={cx('text-area')}>
-        <TextArea author={author} avatarUrl={avatar} title={title} views={views} date={date} noImage={hor} />
+        <TextArea author={author} avatarUrl={avatar} title={title} views={views} date={publishTime} side={hor} />
       </div>
     </div>
   );
 }
 
 VideoItem.propTypes = {
-  type: PropTypes.string,
-  id: PropTypes.string,
-  title: PropTypes.string,
-  thumbnailUrl: PropTypes.string,
-  author: PropTypes.string,
-  avatar: PropTypes.string,
-  views: PropTypes.string,
-  date: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  thumbnailUrl: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
+  views: PropTypes.string.isRequired,
+  publishTime: PropTypes.string.isRequired,
   horizontal: PropTypes.bool,
 };
+
 export default VideoItem;

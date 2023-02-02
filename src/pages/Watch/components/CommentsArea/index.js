@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import Comment from '../Comment';
+import CommentsWrapper from '../CommentsWrapper';
 import Loading from '../../../../components/Loading';
-import { nextVideoComments } from '../../data';
+import { nextVideoComments, videoDetails } from '../../data';
 
 import classNames from 'classnames/bind';
 import styles from './CommentsArea.module.scss';
@@ -11,31 +11,8 @@ function CommentsArea({ videoComments, channelAvatar }) {
   const [comments, setComments] = useState(videoComments.comments);
   const [cursorNext, setCursorNext] = useState(videoComments.cursorNext);
   const [filters, setFilters] = useState(videoComments.filters);
-  const totalCommentsCount = videoComments.totalCommentsCount;
-  const commentRef = useRef();
-
   const [controls, setControls] = useState(false);
-
-  useEffect(() => {
-    const body = document.body;
-    const height = Math.max(body.scrollHeight, body.offsetHeight);
-    let timeout;
-    const scrollEvent = () => {
-      if (window.innerHeight + window.scrollY >= height) {
-        console.log('end of comment');
-
-        // setComments((prev) => prev.concat(nextVideoComments.comments));
-        // setCursorNext(nextVideoComments.cursorNext);
-        // if (nextVideoComments.filters) setFilters(nextVideoComments.filters);
-      }
-    };
-
-    if (cursorNext) window.addEventListener('scroll', scrollEvent);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    else window.removeEventListener('scroll', scrollEvent);
-
-    return () => {};
-  }, []);
+  const totalCommentsCount = videoComments.totalCommentsCount;
 
   return (
     <div className={cx('wrapper')}>
@@ -77,10 +54,12 @@ function CommentsArea({ videoComments, channelAvatar }) {
           ) : null}
         </div>
       </div>
-      <div className={cx('comments-wrapper')} ref={commentRef}>
-        {comments.map((comment) => {
-          return <Comment channelAvatar={channelAvatar} {...comment} key={comment.commentId} />;
-        })}
+      <div className={cx('comments-wrapper')}>
+        <CommentsWrapper
+          comments={videoComments.comments}
+          channelAvatar={videoDetails.author.avatar.at(-1).url}
+          cursorNext={videoComments.cursorNext}
+        />
       </div>
     </div>
   );

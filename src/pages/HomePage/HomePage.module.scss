@@ -8,4 +8,24 @@
   gap: 30px;
   padding: 10px 20px;
   box-sizing: border-box;
+  font-size: 13px;
 }
+
+@media (max-width: 1024px) {
+  .videos{
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .videos{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .videos{
+    grid-template-columns: 100%;
+  }
+}
+

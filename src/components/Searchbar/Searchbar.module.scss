@@ -14,7 +14,7 @@
     align-items: center;
 
     &>input{
-      width: 100%;
+      flex-grow: 1;
       height: 16px;
       padding: 10px 6px;
       background: var(--black18);
@@ -53,6 +53,23 @@
       }
     }
   }
+
+  
+  &.minimize{
+    .input{
+      display: none;
+    }
+    .overlay{
+      width: 24px;
+      height: 24px;
+      padding: 6px 16px;
+      background: rgba(0 0 0 / 0);
+      z-index: 3;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
 }
 
 
@@ -76,7 +93,7 @@
   padding: 20px 0;
   overflow: hidden;
   background: var(--white);
-
+  color: var(--black18);
 
   &__item{
     width: 100%;
@@ -89,4 +106,17 @@
       background: var(--grayaa)
     }
   }
+}
+
+.voice-search{
+  width: 24px;
+  height: 24px;
+  padding: 6px;
+  background: var(--black18);
+  color: #fff;
+}
+
+
+@media screen and (max-width: 768px) {
+
 }

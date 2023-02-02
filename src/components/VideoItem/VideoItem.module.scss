@@ -1,8 +1,8 @@
 .wrapper{
   display: flex;
   flex-direction: column;
-  gap: 10px;
   cursor: pointer;
+  font-size: 1em;
 
   .thumb{
     width: 100%;
@@ -30,7 +30,6 @@
   }
   
   &.horizontal{
-    flex-direction: row;
     width: 100%;
     padding-top: 28.125%;
     position: relative;

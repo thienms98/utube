@@ -7,6 +7,8 @@ import Sidebar from './Layouts/Sidebar';
 import HomePage from './pages/HomePage';
 import Watch from './pages/Watch';
 import Channel from './pages/Channel';
+import SearchResult from './pages/SeachResult';
+import NotFound from './pages/NotFound';
 
 import classNames from 'classnames/bind';
 import styles from './App.module.scss';
@@ -39,10 +41,13 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
+          <Route path="/search/:query" element={<SearchResult />}></Route>
           <Route path="/watch/playlist/:playlistId" element={<Watch type={'redirect'} />} />
           <Route path="/watch/playlist/:playlistId/:index" element={<Watch type={'playlist'} />} />
           <Route path="/watch/video/:videoId" element={<Watch type={'video'} />} />
           <Route path="/channel/:channelId/*" element={<Channel />}></Route>
+
+          <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </main>
     </div>

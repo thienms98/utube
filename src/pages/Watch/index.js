@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
@@ -8,6 +7,7 @@ import {
   videoComments as vidCmts,
   playlistItems as pllItems,
 } from './data';
+import useFetch from '../../hooks/useFetch';
 import RelateContent from './components/RelateContent';
 import VideoDetails from './components/VideoDetails';
 import CommentsArea from './components/CommentsArea';
@@ -23,13 +23,6 @@ function Watch({ type }) {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const options = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key': '1e74585e41msh58868883a876fc1p1bb393jsne284ab99e61e',
-      'X-RapidAPI-Host': 'youtube138.p.rapidapi.com',
-    },
-  };
 
   useEffect(() => {
     if (type === 'redirect') {
@@ -38,6 +31,7 @@ function Watch({ type }) {
     }
   }, [type]);
 
+  const [test, setTest] = useState();
   const [videoDetails, setVideoDetails] = useState(vidDetails);
   const [relateVideos, setRelateVideos] = useState(relateVids);
   const [videoComments, setVideoComments] = useState(vidCmts);
@@ -49,8 +43,11 @@ function Watch({ type }) {
 
   const [videoId, setVideoId] = useState('');
 
+  console.log(test);
   useEffect(() => {
-    document.title = videoDetails.title;
+    console.log('fetching');
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useFetch('https://jsonplaceholder.typicode.com/todos/1', setTest);
     // get video details by videoId from url
     // fetch(`https://youtube138.p.rapidapi.com/video/details/?id=${videoId}&hl=en&gl=US`, options)
     //   .then((res) => res.json())
@@ -67,6 +64,7 @@ function Watch({ type }) {
     // fetch('fetch with id')
     //   .then((res) => res.json())
     //   .then((result) => setVideoComments(result));
+    document.title = videoDetails.title;
   }, [videoId]);
 
   //get playlist items for videoId from url

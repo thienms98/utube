@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 function ChannelName({ name, verified }) {
   return (
     <div className={cx('wrapper')}>
-      <span>{name}</span>
+      <span title={name}>{name}</span>
       {verified ? <Verified /> : null}
     </div>
   );

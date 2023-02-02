@@ -21,7 +21,7 @@ function RelateContent({ contents, setNewVideoId }) {
                     author={content.video.author?.title}
                     avatar={content.video.author?.avatar?.at(0).url}
                     views={`${shortenNumber(content.video.stats?.views)} views`}
-                    date={content.video.publishedTimeText}
+                    publishTime={content.video.publishedTimeText}
                     hor={true}
                   />
                 ) : null}

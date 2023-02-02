@@ -1,11 +1,16 @@
 .wrapper{
   width: 100%;
-  font-size: 0.7rem;
+  font-size: 1em;
   color: var(--grayaa);
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 
   &>svg{
     width: 0.75rem;

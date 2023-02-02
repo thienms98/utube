@@ -108,7 +108,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    color: var(--blue)
+    color: var(--blue);
+
+    .revert{
+      transform: rotate(180deg);
+    }
   }
 }
 

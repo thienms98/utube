@@ -1,32 +1,38 @@
 import { useState, useEffect } from 'react';
-import classNames from 'classnames/bind';
-import styles from './Searchbar.module.scss';
+import { useNavigate } from 'react-router-dom';
 import * as Icon from '../../assets/icon';
 import useDebounce from '../../hooks/useDebounce';
+import { options } from '../../utilities/apiOpts';
 
+import classNames from 'classnames/bind';
+import styles from './Searchbar.module.scss';
 const cx = classNames.bind(styles);
 
-function SearchBar() {
+function SearchBar({ smallInput, toggleOverlay, toggleSmallInput }) {
   const [value, setValue] = useState('');
   const [autoComplete, setAutoComplete] = useState([]);
   const [autoCompleteVisible, setAutoCompleteVisible] = useState(false);
   const debounce = useDebounce(500, value);
+  const navigate = useNavigate();
 
+  // fetch auto complete api (suggest searching)
   useEffect(() => {
     if (debounce.trim().length === 0) setAutoComplete([]);
     else {
-      console.log('fetching');
-      fetch('someshit right here')
+      fetch(`https://youtube138.p.rapidapi.com/auto-complete/?q=${value}&hl=en&gl=US`, options)
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((response) => setAutoComplete(response.results))
         .catch((err) => console.error(err));
-      setAutoComplete([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
       setAutoCompleteVisible(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounce]);
 
+  console.log('rerender');
+  console.log(smallInput);
+
   return (
-    <div className={cx('wrapper')}>
+    <div className={cx('wrapper', { minimize: smallInput })}>
       <div className={cx('input')}>
         <input
           type="text"
@@ -45,17 +51,44 @@ function SearchBar() {
         )}
       </div>
       <div className={cx('icon')}>
-        <Icon.Search />
+        <span
+          onClick={() => {
+            navigate(`/search/${value}`);
+          }}
+        >
+          <Icon.Search />
+        </span>
+        <div
+          className={cx('overlay')}
+          onClick={() => {
+            toggleOverlay();
+            toggleSmallInput();
+          }}
+        ></div>
       </div>
+
       {autoCompleteVisible && autoComplete.length > 0 && (
         <div className={cx('search-result')}>
-          {autoComplete.map((str) => {
+          {autoComplete.map((str, index) => {
             return (
-              <div className={cx('search-result__item')} key={str}>
+              <div
+                className={cx('search-result__item')}
+                key={index}
+                onClick={() => {
+                  navigate(`/search/${str}`);
+                  setAutoCompleteVisible(false);
+                }}
+              >
                 {str}
               </div>
             );
           })}
+        </div>
+      )}
+
+      {smallInput || (
+        <div className={cx('voice-search')}>
+          <Icon.VoiceSearch />
         </div>
       )}
     </div>

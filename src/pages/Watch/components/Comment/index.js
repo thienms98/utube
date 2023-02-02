@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Liked, DownArrow } from '../../../../assets/icon';
 import { shortenNumber } from '../../../../utilities/index';
+import { videoComments } from '../../data';
+import CommentsWrapper from '../CommentsWrapper';
 
 import classNames from 'classnames/bind';
 import styles from './Comment.module.scss';
@@ -17,6 +20,7 @@ function Comment({
   publishTimeText,
   stats,
 }) {
+  const [repliesVisible, setRepliesVisible] = useState(false);
   const navigate = useNavigate();
   return (
     <div className={cx('comment')} key={commentId}>
@@ -58,10 +62,26 @@ function Comment({
 
         {stats.replies > 0 && (
           <div className={cx('replies')}>
-            <div className={cx('header')}>
-              <DownArrow />
+            <div
+              className={cx('header')}
+              onClick={() => {
+                setRepliesVisible((prev) => !prev);
+              }}
+            >
+              <div className={cx('icon', { revert: repliesVisible })}>
+                <DownArrow />
+              </div>
               {`${stats.replies} replies`}
             </div>
+            {repliesVisible ? (
+              <div className={cx('body')}>
+                <CommentsWrapper
+                  comments={videoComments.comments}
+                  channelAvatar={channelAvatar}
+                  cursorNext={videoComments.cursorNext}
+                />
+              </div>
+            ) : null}
           </div>
         )}
       </div>

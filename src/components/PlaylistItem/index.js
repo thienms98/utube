@@ -20,7 +20,9 @@ function PlaylistItem({ id, title, thumbnailUrl, author, hor }) {
         </div>
       </div>
       <div className={cx('text')}>
-        <div className={cx('title')}>{title}</div>
+        <div className={cx('title')} title={title}>
+          {title}
+        </div>
         <div className={cx('detail')}>{author}</div>
       </div>
     </div>
