@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/thienms98/utube/static/css/main.c1dd0fbc.css",
+    "main.js": "/thienms98/utube/static/js/main.84437914.js",
+    "static/js/787.d05c0dee.chunk.js": "/thienms98/utube/static/js/787.d05c0dee.chunk.js",
+    "static/media/Youtube logo.svg": "/thienms98/utube/static/media/Youtube logo.cecdfa2bdc71274e573e7184e21ce987.svg",
+    "static/media/like.svg": "/thienms98/utube/static/media/like.e5332dbe7539bfb1e657c60b33ee1043.svg",
+    "static/media/shorts.svg": "/thienms98/utube/static/media/shorts.76182d7bdfc0fbffc1c8e030f95e8b2b.svg",
+    "static/media/playlist.svg": "/thienms98/utube/static/media/playlist.b12b747118543694a85ab5451ea3b50a.svg",
+    "index.html": "/thienms98/utube/index.html",
+    "static/media/explore.svg": "/thienms98/utube/static/media/explore.0ee8a0a08f4cbe98b902fc631bbddb2c.svg",
+    "static/media/history.svg": "/thienms98/utube/static/media/history.b44a4f323248e9b179e430091c3cdf57.svg",
+    "static/media/liked.svg": "/thienms98/utube/static/media/liked.7826f70fdc0b0309d492c01a0d45b8f1.svg",
+    "static/media/create.svg": "/thienms98/utube/static/media/create.02783a36bf2aeb074f46e41d095c57a1.svg",
+    "static/media/more.svg": "/thienms98/utube/static/media/more.9ed0714b8192ce61398cb93888b5a42d.svg",
+    "static/media/search.svg": "/thienms98/utube/static/media/search.c34f25125a5ce2d60a77021d02b4bded.svg",
+    "static/media/voice-search.svg": "/thienms98/utube/static/media/voice-search.ea56f46efc8e4bc37c04658e85c887f6.svg",
+    "static/media/watch_later.svg": "/thienms98/utube/static/media/watch_later.92bab859a6e16dd3edb99715e2402e34.svg",
+    "static/media/verified.svg": "/thienms98/utube/static/media/verified.fc2d5a04db260d931c5cf5c57b1e8c0e.svg",
+    "static/media/create-1.svg": "/thienms98/utube/static/media/create-1.fb7597a883ed2b89c4751a5286757c10.svg",
+    "static/media/hambarger.svg": "/thienms98/utube/static/media/hambarger.f49fa3bd14eefd5b5f0d065a66db506b.svg",
+    "static/media/subscription.svg": "/thienms98/utube/static/media/subscription.6fcdcba497c81fdc86bc2f5ee99be936.svg",
+    "static/media/library.svg": "/thienms98/utube/static/media/library.94e8ca1153da44e01b1a1eaa4c98c506.svg",
+    "static/media/down_arrow.svg": "/thienms98/utube/static/media/down_arrow.c3ad42d0594f9aeed791758bcbf8618b.svg",
+    "static/media/your_video.svg": "/thienms98/utube/static/media/your_video.5ce52791eca2f5766bf8a6e17ecda9cc.svg",
+    "static/media/home.svg": "/thienms98/utube/static/media/home.65abbab1aa4527a7becefdb6b8c58af1.svg",
+    "main.c1dd0fbc.css.map": "/thienms98/utube/static/css/main.c1dd0fbc.css.map",
+    "main.84437914.js.map": "/thienms98/utube/static/js/main.84437914.js.map",
+    "787.d05c0dee.chunk.js.map": "/thienms98/utube/static/js/787.d05c0dee.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c1dd0fbc.css",
+    "static/js/main.84437914.js"
+  ]
+}
