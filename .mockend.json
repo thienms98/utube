@@ -1,5 +1,5 @@
 {
-  "playlist": {
+  "Playlist": {
     "_": { "items": 10 },
     "id": { "regexp": "[A-Z][a-z][0-9]{10}" },
     "title": {
