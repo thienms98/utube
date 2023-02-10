@@ -19,7 +19,7 @@
       "regexp": "https://picsum\\.photos/seed/[0-9]{5}/300/300"
     }
   },
-  "Relate-content": {
+  "Relates": {
     "_": { "items": 100 },
     "id": { "regexp": "[A-Z][a-z][0-9]{10}" },
     "title": {
