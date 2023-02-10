@@ -1,0 +1,18 @@
+{
+  "Detail": {
+    "_": { "items": 10 },
+    "title": "some title",
+    "date": "12/2/2023",
+    "author": "someone who created this"
+  },
+  "Playlist": {
+    "_": { "items": 10 },
+    "id": { "regexp": "[A-Z][a-z][0-9]{10}" },
+    "title": {
+      "loremWords": { "minLength": 20, "maxLength": 50 }
+    },
+    "photo": {
+      "regexp": "https://picsum\\.photos/seed/[0-9]{5}/1280/720"
+    }
+  }
+}
