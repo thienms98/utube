@@ -1,13 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
-import {
-  videoDetails as vidDetails,
-  relateVideos as relateVids,
-  videoComments as vidCmts,
-  playlistItems as pllItems,
-} from './data';
-import useFetch from '../../hooks/useFetch';
+import { options } from '../../utilities/apiOpts';
 import RelateContent from './components/RelateContent';
 import VideoDetails from './components/VideoDetails';
 import CommentsArea from './components/CommentsArea';
@@ -24,102 +18,131 @@ function Watch({ type }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (type === 'redirect') {
-      console.log('redirecting...');
-      navigate(`${location.pathname}/1`);
-    }
-  }, [type]);
+  if (type === 'redirect') {
+    navigate(`${location.pathname}/1`);
+  }
 
-  const [test, setTest] = useState();
-  const [videoDetails, setVideoDetails] = useState(vidDetails);
-  const [relateVideos, setRelateVideos] = useState(relateVids);
-  const [videoComments, setVideoComments] = useState(vidCmts);
-  const [playlistItems, setPlaylistItems] = useState(pllItems);
-  const [playlistIndex, setPlaylistIndex] = useState(params.index - 1);
-  const [tabActive, setTabActive] = useState(0);
+  const [videoProps, setVideoProps] = useState({ loop: false, autoplay: true });
+  const [videoDetails, setVideoDetails] = useState(null);
+  const [relateVideos, setRelateVideos] = useState(null);
+  const [videoComments, setVideoComments] = useState(null);
+  const [playlistItems, setPlaylistItems] = useState(null);
+  const [playlistIndex, setPlaylistIndex] = useState(null);
+  // const [tabActive, setTabActive] = useState(0);
+
+  const [videoId, setVideoId] = useState(null);
+  const [playlistId, setPlaylistId] = useState(null);
+
+  useEffect(() => {
+    if (type === 'video') setVideoId(params.videoId);
+    if (type === 'playlist') {
+      setPlaylistId(params.playlistId);
+      setPlaylistIndex(params.index - 1);
+    }
+  }, [params]);
 
   const tabs = type === 'playlist' ? ['playlist', 'relate videos'] : ['relate videos'];
 
-  const [videoId, setVideoId] = useState('');
-
-  console.log(test);
-  useEffect(() => {
-    console.log('fetching');
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useFetch('https://jsonplaceholder.typicode.com/todos/1', setTest);
-    // get video details by videoId from url
-    // fetch(`https://youtube138.p.rapidapi.com/video/details/?id=${videoId}&hl=en&gl=US`, options)
-    //   .then((res) => res.json())
-    //   .then((result) => {
-    //     setVideoDetails(result);
-    //     document.title = result.title;
-    //   })
-    //   .catch((err) => console.log('get nothing from the id'));
-    // get relate videos for videoId from url
-    // fetch(`https://youtube138.p.rapidapi.com/video/related-contents/?id=${videoId}=en&gl=US`, options)
-    //   .then((res) => res.json())
-    //   .then((result) => setRelateVideos(result));
-    //get video comments for videoId from url
-    // fetch('fetch with id')
-    //   .then((res) => res.json())
-    //   .then((result) => setVideoComments(result));
-    document.title = videoDetails.title;
-  }, [videoId]);
-
   //get playlist items for videoId from url
-  // useEffect(() => {
-  //   fetch(`https://youtube138.p.rapidapi.com/playlist/videos/?id=${params.playlistId}&hl=en&gl=US`, options)
-  //     .then((res) => res.json())
-  //     .then((result) => {
-  //       console.log('get playlist');
-  //       console.log(result);
-  //       setPlaylistItems(result);
-  //     });
-  // }, [params.playlistId]);
-
-  // set video id for first render
   useEffect(() => {
-    if (type === 'video') setVideoId(params.videoId);
-    if (type === 'playlist') setVideoId(playlistItems.contents[playlistIndex].video.videoId);
-  }, []);
+    if (playlistId)
+      fetch(`https://youtube138.p.rapidapi.com/playlist/videos/?id=${playlistId}&hl=en&gl=US`, options)
+        .then((res) => res.json())
+        .then((result) => {
+          setPlaylistItems(result);
+          setVideoId(result.contents[playlistIndex].video.videoId);
+        });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playlistId]);
 
   // set video id for each time change the index of playlist
   useEffect(() => {
-    if (!!playlistItems.contents[playlistIndex]) {
-      navigate(`/watch/playlist/${params.playlistId}/${playlistIndex + 1}`);
-      setVideoId(playlistItems.contents[playlistIndex].video.videoId);
-    }
+    if (playlistItems && playlistItems.contents.length > 0 && playlistIndex)
+      navigate(`/watch/playlist/${playlistId}/${playlistIndex + 1}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playlistIndex]);
 
+  useEffect(() => {
+    if (videoId) {
+      // get video details by videoId from url
+      fetch(`https://youtube138.p.rapidapi.com/video/details/?id=${videoId}&hl=en&gl=US`, options)
+        .then((res) => res.json())
+        .then((result) => {
+          setVideoDetails(result);
+          document.title = result.title;
+        });
+      // get relate videos for videoId from url
+      fetch(`https://youtube138.p.rapidapi.com/video/related-contents/?id=${videoId}&hl=en&gl=US`, options)
+        .then((res) => res.json())
+        .then((result) => setRelateVideos(result));
+      // get video comments for videoId from url
+      // settimeout for limit request per second
+      setTimeout(() => {
+        fetch(`https://youtube138.p.rapidapi.com/video/comments/?id=${videoId}&hl=en&gl=US`, options)
+          .then((res) => res.json())
+          .then((result) => setVideoComments(result));
+      }, 1500);
+      window.scrollTo(0, 0);
+    }
+  }, [videoId]);
+
+  // console.log(playlistItems);
+
   const indexChangeHandle = (idx) => {
-    if (idx === undefined) {
-      setPlaylistIndex((prev) => prev + 1);
-    } else {
-      setPlaylistIndex(idx);
+    if (type === 'playlist') {
+      if (idx === undefined) {
+        idx = playlistIndex + 1;
+      } else idx += 1; // index on url start from 1 but playlist index start from 0
+
+      navigate(`/watch/playlist/${playlistId}/${idx}`);
+    }
+
+    if (type === 'video') {
+      const nextId = relateVideos.contents[0].video.videoId;
+      navigate(`/watch/video/${nextId}`);
     }
   };
-
-  // const nextVideo = () => {
-  //   if (type === 'video') {
-  //     setVideoId(() => {
-  //       if (!!relateVideos.contents[0].type === 'video') return relateVideos.contents[0].video.videoId;
-  //       if (!!relateVideos.contents[0].type === 'playlist') return relateVideos.contents[0].playlist.playlistId;
-  //     });
-  //   }
-  // };
 
   return (
     <div className={cx('wrapper')}>
       <div className={cx('video')}>
-        <YTPlayer videoId={videoId} title={videoDetails.title} indexChangeHandle={indexChangeHandle} />
+        {videoDetails ? (
+          <YTPlayer
+            videoId={videoId}
+            title={videoDetails}
+            indexChangeHandle={indexChangeHandle}
+            videoProps={videoProps}
+          />
+        ) : (
+          <Loading />
+        )}
 
         <div className={cx('video-details')}>
-          <VideoDetails videoDetails={videoDetails} />
+          {videoDetails ? (
+            <VideoDetails
+              videoDetails={videoDetails}
+              videoProps={videoProps}
+              handleVideoProps={(properties) => {
+                setVideoProps((prev) => {
+                  return { ...prev, ...properties };
+                });
+              }}
+            />
+          ) : (
+            'loading'
+          )}
         </div>
 
         <div className={cx('comments')}>
-          <CommentsArea videoComments={videoComments} channelAvatar={videoDetails.author?.avatar[0].url} />
+          {videoDetails && videoComments ? (
+            <CommentsArea
+              videoId={videoId}
+              videoComments={videoComments}
+              channelAvatar={videoDetails.author.avatar[0].url}
+            />
+          ) : (
+            'loading'
+          )}
         </div>
       </div>
 
@@ -138,18 +161,22 @@ function Watch({ type }) {
           })}
         </div> */}
         {type === 'playlist' ? (
-          <div className={cx('playlist-items')}>
-            <PlaylistVideos
-              playlistId={params.playlistId}
-              playlistItems={playlistItems}
-              playlistIndex={playlistIndex}
-              indexChangeHandle={indexChangeHandle}
-            />
-          </div>
+          playlistItems ? (
+            <div className={cx('playlist-items')}>
+              <PlaylistVideos
+                playlistId={params.playlistId}
+                playlistItems={playlistItems}
+                playlistIndex={playlistIndex}
+                indexChangeHandle={indexChangeHandle}
+              />
+            </div>
+          ) : (
+            <Loading />
+          )
         ) : null}
 
         <div className={cx('relate-videos')}>
-          <RelateContent contents={relateVideos.contents} />
+          {relateVideos ? <RelateContent relateVideos={relateVideos} videoId={videoId} /> : 'loading'}
         </div>
       </div>
     </div>

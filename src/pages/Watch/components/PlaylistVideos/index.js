@@ -12,7 +12,7 @@ function PlaylistVideos({ playlistItems, playlistId, playlistIndex, indexChangeH
     <div className={cx('wrapper')}>
       <div className={cx('title')}>{'Playlist'}</div>
       <div className={cx('items')}>
-        {playlistItems.contents.map((video, index) => {
+        {playlistItems?.contents.map((video, index) => {
           const { hour, min, sec } = secToHMS(video.video.lengthSeconds);
 
           return (

@@ -1,16 +1,26 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as Icon from '../../assets/icon';
 import useDebounce from '../../hooks/useDebounce';
 import { options } from '../../utilities/apiOpts';
+import { history } from '../../utilities/searchHistory';
 
 import classNames from 'classnames/bind';
 import styles from './Searchbar.module.scss';
 const cx = classNames.bind(styles);
 
 function SearchBar({ smallInput, toggleOverlay, toggleSmallInput }) {
-  const [value, setValue] = useState('');
-  const [autoComplete, setAutoComplete] = useState([]);
+  const { searchQuery } = useParams();
+  const [value, setValue] = useState(searchQuery || '');
+  const [autoComplete, setAutoComplete] = useState(() => {
+    // display max 4 history items
+    return history
+      .getData()
+      .splice(0, 4)
+      .map((content) => {
+        return { content, type: 'history' };
+      });
+  });
   const [autoCompleteVisible, setAutoCompleteVisible] = useState(false);
   const debounce = useDebounce(500, value);
   const navigate = useNavigate();
@@ -21,15 +31,18 @@ function SearchBar({ smallInput, toggleOverlay, toggleSmallInput }) {
     else {
       fetch(`https://youtube138.p.rapidapi.com/auto-complete/?q=${value}&hl=en&gl=US`, options)
         .then((response) => response.json())
-        .then((response) => setAutoComplete(response.results))
+        // set max items: 14
+        .then((response) => {
+          const autoCompletes = response.results.map((result) => {
+            return { content: result, type: 'autocomplete' };
+          });
+          setAutoComplete((prev) => [...prev, ...autoCompletes].splice(0, 14));
+        })
         .catch((err) => console.error(err));
       setAutoCompleteVisible(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounce]);
-
-  console.log('rerender');
-  console.log(smallInput);
 
   return (
     <div className={cx('wrapper', { minimize: smallInput })}>
@@ -41,7 +54,7 @@ function SearchBar({ smallInput, toggleOverlay, toggleSmallInput }) {
             setValue(e.target.value);
           }}
           placeholder="Search ..."
-          onBlur={() => setAutoCompleteVisible(false)}
+          // onBlur={() => setAutoCompleteVisible(false)}
           onFocus={() => setAutoCompleteVisible(true)}
         />
         {debounce && (
@@ -69,17 +82,29 @@ function SearchBar({ smallInput, toggleOverlay, toggleSmallInput }) {
 
       {autoCompleteVisible && autoComplete.length > 0 && (
         <div className={cx('search-result')}>
-          {autoComplete.map((str, index) => {
+          {autoComplete.map((item, index) => {
             return (
               <div
                 className={cx('search-result__item')}
                 key={index}
                 onClick={() => {
-                  navigate(`/search/${str}`);
+                  navigate(`/search/${item.content}`);
+                  history.add(item.content);
+                  history.save();
                   setAutoCompleteVisible(false);
                 }}
               >
-                {str}
+                {item.content}
+                {item.type === 'history' && (
+                  <span
+                    className={cx('del-btn')}
+                    onClick={() => {
+                      history.remove(index);
+                    }}
+                  >
+                    delete
+                  </span>
+                )}
               </div>
             );
           })}

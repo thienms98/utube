@@ -4,6 +4,8 @@
   width: 100%;
   cursor: pointer;
   font-size: 1em;
+  border-radius: 6px;
+  overflow: hidden;
 
   .thumb{
     width: 100%;
@@ -50,7 +52,7 @@
   }
 
   .text{
-    padding-right: 24px;
+    padding: 0 12px 6px 24px;
   }
   .title{
     margin: 12px 0 6px;
@@ -73,20 +75,18 @@
   &.horizontal{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     position: relative;
-    $thumb-width: 50%;
+    $thumb-width: 40%;
 
     .thumb{
-      width: calc($thumb-width * 0.9);
+      width: $thumb-width;
       height: 0;
       padding-top: calc($thumb-width * 0.5625);
     }
 
     .text{
       width: calc(100% - $thumb-width);
-      padding: 0;
-      right: 0;
+      box-sizing: border-box;
     }
     .title, .detail{
       overflow: hidden;
@@ -100,5 +100,10 @@
       font-size: 1.17em;
     }
     
+  }
+
+
+  &:hover{
+    background-color: rgba(0, 0, 0, 0.3);
   }
 }

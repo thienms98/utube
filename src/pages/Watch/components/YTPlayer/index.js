@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import styles from './YTPlayer.module.scss';
 const cx = classNames.bind(styles);
 
-function YTPlayer({ videoId, title, indexChangeHandle }) {
+function YTPlayer({ videoId, title, indexChangeHandle, videoProps }) {
   return (
     <>
       <YouTube
@@ -15,7 +15,7 @@ function YTPlayer({ videoId, title, indexChangeHandle }) {
         className={cx('player')}
         iframeClassName={cx('youtube-iframe')}
         opts={{
-          playerVars: { autoplay: 1, controls: 1 },
+          playerVars: { autoplay: 1, controls: 1, loop: videoProps.loop ? 1 : 0 },
         }}
         onEnd={() => {
           indexChangeHandle();

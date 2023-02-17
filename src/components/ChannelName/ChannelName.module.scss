@@ -2,13 +2,13 @@
   width: 100%;
   font-size: 1em;
   color: var(--grayaa);
+  display: -webkit-box;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 

@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -9,11 +10,13 @@ const cx = classNames.bind(styles);
 
 function VideoItem({ id, title, thumbnailUrl, author, avatar, views, publishTime, hor }) {
   const navigate = useNavigate();
+
   return (
     <div
       className={cx('wrapper', { horizontal: hor })}
       onClick={() => {
-        navigate(`/watch/video/${id}`);
+        document.title = title;
+        navigate(`/watching/video/${id}`);
       }}
     >
       <div className={cx('thumb')}>
@@ -27,7 +30,6 @@ function VideoItem({ id, title, thumbnailUrl, author, avatar, views, publishTime
 }
 
 VideoItem.propTypes = {
-  type: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   thumbnailUrl: PropTypes.string.isRequired,

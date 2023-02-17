@@ -36,7 +36,7 @@ TextArea.propTypes = {
   title: PropTypes.string.isRequired,
   views: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  channelVerified: PropTypes.bool.isRequired,
+  channelVerified: PropTypes.bool,
   side: PropTypes.bool,
 };
 

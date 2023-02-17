@@ -8,13 +8,19 @@ import classNames from 'classnames/bind';
 import styles from './VideoDetails.module.scss';
 const cx = classNames.bind(styles);
 
-function VideoDetails({ videoDetails }) {
+function VideoDetails({ videoDetails, videoProps, handleVideoProps }) {
   const [descriptionVisible, setDescriptionVisible] = useState(false);
 
   return !videoDetails ? (
     'loading...'
   ) : (
     <div className={cx('wrapper')}>
+      <div onClick={() => handleVideoProps({ autoplay: !videoProps.autoplay })}>
+        autoplay <input type="checkbox" checked={videoProps.autoplay} />
+      </div>
+      <div onClick={() => handleVideoProps({ loop: !videoProps.loop })}>
+        loop <input type="checkbox" checked={videoProps.loop} />
+      </div>
       <div className={cx('super-title')}>
         {videoDetails.superTitle?.items.map((item, index) => {
           return (
