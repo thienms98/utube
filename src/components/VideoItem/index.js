@@ -16,7 +16,7 @@ function VideoItem({ id, title, thumbnailUrl, author, avatar, views, publishTime
       className={cx('wrapper', { horizontal: hor })}
       onClick={() => {
         document.title = title;
-        navigate(`/watching/video/${id}`);
+        navigate(`/watch/video/${id}`);
       }}
     >
       <div className={cx('thumb')}>
@@ -29,15 +29,15 @@ function VideoItem({ id, title, thumbnailUrl, author, avatar, views, publishTime
   );
 }
 
-VideoItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  thumbnailUrl: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  avatar: PropTypes.string.isRequired,
-  views: PropTypes.string.isRequired,
-  publishTime: PropTypes.string.isRequired,
-  horizontal: PropTypes.bool,
-};
+// VideoItem.propTypes = {
+//   id: PropTypes.string.isRequired,
+//   title: PropTypes.string.isRequired,
+//   thumbnailUrl: PropTypes.string.isRequired,
+//   author: PropTypes.string.isRequired,
+//   avatar: PropTypes.string.isRequired,
+//   views: PropTypes.string.isRequired,
+//   publishTime: PropTypes.string.isRequired,
+//   horizontal: PropTypes.bool,
+// };
 
 export default VideoItem;

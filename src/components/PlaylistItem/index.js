@@ -11,7 +11,7 @@ function PlaylistItem({ id, title, thumbnailUrl, author, hor = false }) {
       <div
         className={cx('wrapper', { horizontal: hor })}
         onClick={() => {
-          navigate(`/watching/playlist/${id}`);
+          navigate(`/watch/playlist/${id}`);
         }}
       >
         <div className={cx('thumb')}>

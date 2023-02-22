@@ -1,32 +1,35 @@
 {
-  "Playlist": {
-    "_": { "items": 100 },
-    "id": { "regexp": "[A-Z][a-z][0-9]{10}" },
-    "title": {
-      "loremWords": { "minLength": 20, "maxLength": 50 }
+  "Utube": {
+    "_": { "items": 1 },
+    "Playlist": {
+      "_": { "items": 100 },
+      "id": { "regexp": "[A-Z][a-z][0-9]{10}" },
+      "title": {
+        "loremWords": { "minLength": 20, "maxLength": 50 }
+      },
+      "photo": {
+        "regexp": "https://picsum\\.photos/seed/[0-9]{5}/1280/720"
+      }
     },
-    "photo": {
-      "regexp": "https://picsum\\.photos/seed/[0-9]{5}/1280/720"
-    }
-  },
-  "Comments": {
-    "_": { "items": 100 },
-    "id": { "regexp": "[A-Z][a-z][0-9]{10}" },
-    "title": {
-      "loremSentences": { "minLength": 100, "maxLength": 200 }
+    "Comments": {
+      "_": { "items": 100 },
+      "id": { "regexp": "[A-Z][a-z][0-9]{10}" },
+      "title": {
+        "loremSentences": { "minLength": 100, "maxLength": 200 }
+      },
+      "photo": {
+        "regexp": "https://picsum\\.photos/seed/[0-9]{5}/300/300"
+      }
     },
-    "photo": {
-      "regexp": "https://picsum\\.photos/seed/[0-9]{5}/300/300"
-    }
-  },
-  "Relates": {
-    "_": { "items": 100 },
-    "id": { "regexp": "[A-Z][a-z][0-9]{10}" },
-    "title": {
-      "loremWords": { "minLength": 20, "maxLength": 50 }
-    },
-    "photo": {
-      "regexp": "https://picsum\\.photos/seed/[0-9]{5}/1280/720"
+    "Relatecontents": {
+      "_": { "items": 100 },
+      "id": { "regexp": "[A-Z][a-z][0-9]{10}" },
+      "title": {
+        "loremWords": { "minLength": 20, "maxLength": 50 }
+      },
+      "photo": {
+        "regexp": "https://picsum\\.photos/seed/[0-9]{5}/1280/720"
+      }
     }
   }
 }

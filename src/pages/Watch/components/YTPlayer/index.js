@@ -1,10 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { DataContext } from '../..';
 import YouTube from 'react-youtube';
+
 import classNames from 'classnames/bind';
 import styles from './YTPlayer.module.scss';
 const cx = classNames.bind(styles);
 
-function YTPlayer({ videoId, title, indexChangeHandle, videoProps }) {
+function YTPlayer({ type, videoId, title, options }) {
+  const navigate = useNavigate();
+  const params = useParams();
+  const data = useContext(DataContext);
+
+  const nextVideo = () => {
+    if (type === 'video') {
+      const videoIndex = data.relateContents.contents.indexOf((content) => content.type === 'video');
+      document.title = data.relateContents.contents[videoIndex].video.title;
+      navigate(`/watch/${type}/${data.relateContents.contents[videoIndex].video.videoId}`);
+    }
+    if (type === 'playlist') {
+      const contents = data.playlist.contents;
+      let currentIndex = contents.findIndex((content) => content.video.videoId === params.videoId);
+      if (currentIndex >= contents.length) return;
+      document.title = contents[currentIndex + 1].video.title;
+      navigate(`/watch/${type}/${params.playlistId}/${contents[currentIndex + 1].video.videoId}`);
+    }
+  };
+
   return (
     <>
       <YouTube
@@ -15,10 +38,14 @@ function YTPlayer({ videoId, title, indexChangeHandle, videoProps }) {
         className={cx('player')}
         iframeClassName={cx('youtube-iframe')}
         opts={{
-          playerVars: { autoplay: 1, controls: 1, loop: videoProps.loop ? 1 : 0 },
+          playerVars: { autoplay: 1, controls: 1, loop: options.loop },
+        }}
+        style={{
+          height: `${document.body.offsetHeight * 0.8}px`,
+          width: `${(document.body.offsetHeight * 0.8) / 0.5625}px`,
         }}
         onEnd={() => {
-          indexChangeHandle();
+          nextVideo();
         }}
         // onPlaybackRateChange={func}       // defaults -> noop
         // onPlaybackQualityChange={func}    // defaults -> noop
@@ -26,4 +53,10 @@ function YTPlayer({ videoId, title, indexChangeHandle, videoProps }) {
     </>
   );
 }
+
+YTPlayer.defaultProps = {
+  title: { title: '' },
+  videoProps: { loop: 0 },
+};
+
 export default YTPlayer;

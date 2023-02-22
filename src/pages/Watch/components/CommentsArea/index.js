@@ -1,18 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
-import CommentsWrapper from '../CommentsWrapper';
+import Comments from './Comments';
 import Loading from '../../../../components/Loading';
-import { nextVideoComments, videoDetails } from '../../data';
 
 import classNames from 'classnames/bind';
 import styles from './CommentsArea.module.scss';
 const cx = classNames.bind(styles);
 
-function CommentsArea({ videoId, videoComments, channelAvatar }) {
-  const [comments, setComments] = useState(videoComments.comments);
-  const [cursorNext, setCursorNext] = useState(videoComments.cursorNext);
-  const [filters, setFilters] = useState(videoComments.filters);
+function CommentsArea({ videoId, comments, updateData, type }) {
+  const { commentsList, filters, totalCommentsCount } = comments || {
+    comments: [],
+    filters: [],
+    totalCommentsCount: 0,
+  };
   const [controls, setControls] = useState(false);
-  const totalCommentsCount = videoComments.totalCommentsCount;
 
   return (
     <div className={cx('wrapper')}>
@@ -55,11 +55,12 @@ function CommentsArea({ videoId, videoComments, channelAvatar }) {
         </div>
       </div>
       <div className={cx('comments-wrapper')}>
-        {videoComments ? (
-          <CommentsWrapper
-            comments={videoComments.comments}
-            channelAvatar={videoDetails.author.avatar.at(-1).url}
-            cursorNext={videoComments.cursorNext}
+        {commentsList ? (
+          <Comments
+            updateData={updateData}
+            type={'comment'}
+            comments={commentsList}
+            // channelAvatar={videoDetails.author.avatar.at(-1).url}
             id={videoId}
           />
         ) : (

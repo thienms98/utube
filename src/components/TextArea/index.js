@@ -30,14 +30,14 @@ function TextArea({ author, avatarUrl, title, views, date, channelVerified, side
   );
 }
 
-TextArea.propTypes = {
-  author: PropTypes.string.isRequired,
-  avatarUrl: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  views: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  channelVerified: PropTypes.bool,
-  side: PropTypes.bool,
-};
+// TextArea.propTypes = {
+//   author: PropTypes.string.isRequired,
+//   avatarUrl: PropTypes.string.isRequired,
+//   title: PropTypes.string.isRequired,
+//   views: PropTypes.string.isRequired,
+//   date: PropTypes.string.isRequired,
+//   channelVerified: PropTypes.bool,
+//   side: PropTypes.bool,
+// };
 
 export default TextArea;

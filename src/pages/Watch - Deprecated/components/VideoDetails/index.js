@@ -1,42 +1,26 @@
-import axios from 'axios';
-import { useState, useEffect, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import { options } from '../../../../utilities/apiOpts';
-import * as Icon from '../../../../assets/icon';
 import { shortenNumber, shortenTimeStamp, subtractTime, datetimeFormat } from '../../../../utilities';
+import * as Icon from '../../../../assets/icon';
 
 import classNames from 'classnames/bind';
 import styles from './VideoDetails.module.scss';
 const cx = classNames.bind(styles);
 
-function VideoDetails({ videoDetails, updateData }) {
+function VideoDetails({ videoDetails, videoProps, handleVideoProps }) {
   const [descriptionVisible, setDescriptionVisible] = useState(false);
-  const params = useParams();
-
-  const detailsOptions = {
-    ...options,
-    url: 'https://youtube138.p.rapidapi.com/video/details/',
-    params: { id: params.videoId, hl: 'en', gl: 'US' },
-  };
-
-  useEffect(() => {
-    if (!videoDetails)
-      axios
-        .request(detailsOptions)
-        .then((response) => {
-          updateData('videoDetails', response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.videoId]);
 
   return !videoDetails ? (
     'loading...'
   ) : (
     <div className={cx('wrapper')}>
+      <div onClick={() => handleVideoProps({ autoplay: !videoProps.autoplay })}>
+        autoplay <input type="checkbox" checked={videoProps.autoplay} />
+      </div>
+      <div onClick={() => handleVideoProps({ loop: !videoProps.loop })}>
+        loop <input type="checkbox" checked={videoProps.loop} />
+      </div>
       <div className={cx('super-title')}>
         {videoDetails.superTitle?.items.map((item, index) => {
           return (

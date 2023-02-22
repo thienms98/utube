@@ -1,0 +1,3 @@
+x reply comments removed when collapse replies
+v component doesnt rerender when choosing another video
+x relate contents doesnt change after auto next

@@ -1,0 +1,28 @@
+.wrapper{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  padding: 40px;
+  box-sizing: border-box;
+  padding-right: 80px;
+
+  &>.video{
+    flex-grow: 6;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .video-details{
+    margin-top: 10px;
+    color: var(--white);
+  }
+
+  .side-content{
+    flex-basis: 30%;
+  }
+
+  
+}

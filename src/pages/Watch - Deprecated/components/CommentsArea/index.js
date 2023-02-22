@@ -7,10 +7,12 @@ import classNames from 'classnames/bind';
 import styles from './CommentsArea.module.scss';
 const cx = classNames.bind(styles);
 
-function CommentsArea({ videoId, data, channelAvatar }) {
-  const [filters, setFilters] = useState(data.filters);
+function CommentsArea({ videoId, videoComments, channelAvatar }) {
+  const [comments, setComments] = useState(videoComments.comments);
+  const [cursorNext, setCursorNext] = useState(videoComments.cursorNext);
+  const [filters, setFilters] = useState(videoComments.filters);
   const [controls, setControls] = useState(false);
-  const totalCommentsCount = data.totalCommentsCount;
+  const totalCommentsCount = videoComments.totalCommentsCount;
 
   return (
     <div className={cx('wrapper')}>
@@ -53,8 +55,13 @@ function CommentsArea({ videoId, data, channelAvatar }) {
         </div>
       </div>
       <div className={cx('comments-wrapper')}>
-        {data ? (
-          <CommentsWrapper data={data} channelAvatar={videoDetails.author.avatar.at(-1).url} id={videoId} />
+        {videoComments ? (
+          <CommentsWrapper
+            comments={videoComments.comments}
+            channelAvatar={videoDetails.author.avatar.at(-1).url}
+            cursorNext={videoComments.cursorNext}
+            id={videoId}
+          />
         ) : (
           'loading'
         )}

@@ -1,56 +1,30 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 
 import VideoItem from '../../../../components/VideoItem';
 import PlaylistItem from '../../../../components/PlaylistItem';
 import classNames from 'classnames/bind';
 import styles from './RelateContent.module.scss';
 import { shortenNumber } from '../../../../utilities';
-import { options as opt } from '../../../../utilities/apiOpts';
+import { options } from '../../../../utilities/apiOpts';
 
 const cx = classNames.bind(styles);
 
-function RelateContent({ relateContents, updateData }) {
-  const params = useParams();
-
-  useEffect(() => {
-    const options = {
-      ...opt,
-      url: 'https://youtube138.p.rapidapi.com/video/related-contents/',
-      params: { id: params.videoId, hl: 'en', gl: 'US' },
-    };
-
-    if (!relateContents)
-      axios
-        .request(options)
-        .then((response) => {
-          updateData('relateContents', response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-  }, []);
+function RelateContent({ relateVideos, videoId }) {
+  const [contents, setContents] = useState(relateVideos.contents);
+  const [cursorNext, setCursorNext] = useState(relateVideos.cursorNext);
 
   const loadMoreContents = () => {
-    const options = {
-      ...opt,
-      url: 'https://youtube138.p.rapidapi.com/video/related-contents/',
-      params: { cursor: cursorNext, hl: 'en', gl: 'US' },
-    };
-
-    axios
-      .request(options)
+    fetch(
+      `https://youtube138.p.rapidapi.com/video/related-contents/?id=${videoId}&cursor=${cursorNext}&hl=en&gl=US`,
+      options,
+    )
+      .then((response) => response.json())
       .then((response) => {
-        updateData('relateContents', response.data);
+        setContents((prev) => [...prev, ...response.contents]);
+        setCursorNext(response.cursorNext);
       })
-      .catch((error) => {
-        console.error(error);
-      });
+      .catch((err) => console.error(err));
   };
-
-  const contents = relateContents ? relateContents.contents : null;
-  const cursorNext = relateContents ? relateContents.cursorNext : null;
 
   return (
     <div className={cx('wrapper')}>

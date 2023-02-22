@@ -51,6 +51,7 @@ function HomePage() {
                     author={author}
                     views={views}
                     publishTime={publishTime}
+                    avatar=""
                   />
                 ))}
             </Link>
