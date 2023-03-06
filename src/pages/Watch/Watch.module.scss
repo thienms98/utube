@@ -1,9 +1,15 @@
+$tab-height: 40px;
+
 .wrapper{
   position: relative;
   width: 100%;
-  height: 100%;
-  padding: 40px 20px;
+  height: calc(100% - var(--header-height));
+  padding: 0 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
 }
 
 
@@ -12,17 +18,13 @@
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 
 .sidebar{
   width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  transform: translate(-5%, -50%);
-  transition: all 0.5s ease-in;
+  height: calc(100vh - var(--header-height));
 
   &.full{
     top: 0;
@@ -33,7 +35,7 @@
       content: '';
       width: 100%;
       height: 100%;
-      background: rgb(0 0 0 / 0.6);
+      background: rgb(0 0 0 / 0.95);
       position: absolute;
       top: 0;
       left: 0;
@@ -47,13 +49,14 @@
       transform: translate(0, -50%);
     }
     .body{
-      padding: 0 10%;
+      padding-left: 10%;
+      padding-right: 10%;
     }
   }
 
   .toggler{
     width: 40px;
-    height: 80px;
+    height: 100%;
     border-top-left-radius: 40px;
     border-bottom-left-radius: 40px;
     box-sizing: border-box;
@@ -72,13 +75,18 @@
   .tabs{
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    height: $tab-height;
   }
   .tab-item{
     flex: 1;
     text-align: center;
-    height: 40px;
-    line-height: 40px;
+    height: 100%;
+    line-height: $tab-height;
     background: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     cursor: pointer;
     
     &.active{
@@ -87,9 +95,70 @@
   }
   .body{
     padding: 0;
-    width: 80%;
-    height: 100%;
+    height: calc(100% - $tab-height);
     background: rgb(255 255 255 / 0.1);
-    overflow: scroll;
+  }
+}
+
+@media (max-width: 1024px){
+  .wrapper{
+    padding: 0;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .player{
+    padding-bottom: 40px;
+  }
+  .sidebar{
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0%;
+    transform: translate(0, -80px);
+
+    .tab-item{
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .toggler{
+      top: 0px;
+      left: 0;
+      transform: translate(0, 0);
+      width: 100%;
+      height: $tab-height;
+      background-color:  rgb(255 255 255 / 0.3);
+      border-radius: 0;
+      position: relative;
+      color: transparent;
+      z-index: 11;
+
+      &::before{
+        content: '^';
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgb(0 0 0 / .8);
+        color: #fff;
+        z-index: 10;
+      }
+    }
+
+    .body{
+      height: calc(100% - $tab-height * 2);
+    }
+    &.full{
+      .toggler{
+        top: 40px;
+        transform: translateY(-100%) rotate(180deg);
+      }
+    }
   }
 }

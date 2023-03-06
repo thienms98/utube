@@ -1,12 +1,31 @@
 .wrapper{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100%;
+  overflow-y: scroll;
+  font-size: 1rem;
 
-  &>.video{
-    width: 80%;
-    height: auto;
+  .videos{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    font-size: 0.7em;
+
+  }
+  .video{
+    width: 100%;
     margin: 8px 0;
     overflow: hidden;
-    font-size: 14px;
+  }
+}
+
+.expand-btn{
+  cursor: pointer;
+}
+
+@media (min-width: 768px) and (max-width: 1024px){
+  .wrapper{
+    .videos{
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 }

@@ -22,21 +22,23 @@ function Comment({ channelAvatar, comment, updateData, data }) {
       params: { id: commentId, cursor: cursorReplies, hl: 'en', gl: 'US' },
     };
 
-    axios
-      .request(options)
-      .then((response) => {
-        // insert replies to comment selected
-        const index = data.comments.comments.findIndex((cmt) => cmt.commentId === commentId);
-        const cmt = { ...data.comments.comments[index], replies: response.data };
-        // replace comment in comment list
-        const updatedComments = [...data.comments.comments];
-        updatedComments.splice(index, 1, cmt);
-        // update data
-        updateData('comments', { ...data.comments, comments: updatedComments });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (!comment.replies)
+      axios
+        .request(options)
+        .then((response) => {
+          console.log(response.data);
+          // insert replies to comment selected
+          const index = data.comments?.comments.findIndex((cmt) => cmt.commentId === commentId);
+          const cmt = { ...data.comments.comments[index], replies: response.data };
+          // replace comment in comment list
+          const updatedComments = [...data.comments.comments];
+          updatedComments.splice(index, 1, cmt);
+          // update data
+          updateData('comments', { ...data.comments, comments: updatedComments });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
   };
 
   return (

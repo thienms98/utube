@@ -1,18 +1,22 @@
 import axios from 'axios';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { DataContext } from '../..';
 import { options as opt } from '../../../../utilities/apiOpts';
-import { secToHMS, formatNumberLowerThan10MustHave0Before } from '../../../../utilities';
+import { secToHMS, makeTwoDigits } from '../../../../utilities';
+import { AddToPlaylist, Loop, Shuffle } from '../../../../assets/icon';
+import { PersonalPlaylists } from '../../../../utilities/personalPlaylists';
 
 import classNames from 'classnames/bind';
 import styles from './PlaylistVideos.module.scss';
 const cx = classNames.bind(styles);
 
-function PlaylistVideos({ playlistVideos, updateData }) {
+function PlaylistVideos({ playlistVideos, updateData, watchOptions, changeOptions }) {
   const { playlistId, videoId } = useParams();
   const videosContainerRef = useRef(null);
+  const data = useContext(DataContext);
 
   useEffect(() => {
     if (!playlistVideos) {
@@ -25,7 +29,15 @@ function PlaylistVideos({ playlistVideos, updateData }) {
       axios
         .request(options)
         .then((response) => {
-          updateData('playlist', response.data);
+          options.url = 'https://youtube138.p.rapidapi.com/playlist/details/';
+          const playlist = response.data;
+
+          axios
+            .request(options)
+            .then((response) => {
+              updateData('playlist', { ...playlist, ...response.data });
+            })
+            .catch((err) => console.log(err));
         })
         .catch((error) => {
           console.error(error);
@@ -44,14 +56,43 @@ function PlaylistVideos({ playlistVideos, updateData }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoId]);
 
-  return (
-    <div className={cx('wrapper')}>
-      <div className={cx('title')}>{'Playlist'}</div>
-      <div className={cx('items')} ref={videosContainerRef}>
-        {playlistVideos &&
-          playlistVideos.contents.map((video, index) => {
-            const { hour, min, sec } = secToHMS(video.video.lengthSeconds);
+  const savePlaylist = () => {
+    const { playlistId, title } = playlistVideos;
+    PersonalPlaylists.createPlaylist(playlistId, title, 'youtube');
+    alert('done');
+  };
 
+  return (
+    playlistVideos && (
+      <div className={cx('wrapper')}>
+        <div className={cx('title')}>
+          <Link to={`/playlist/${playlistVideos.playlistId}`}>{playlistVideos.title}</Link>
+        </div>
+        <div className={cx('author')}>
+          {playlistVideos.author.title}
+          <span className={cx('order')}>
+            {data.playlist.contents.findIndex((video) => video.video.videoId === videoId) + 1}/
+            {data.playlist.contents.length}
+          </span>
+        </div>
+        <div className={cx('options')}>
+          <div className={cx('btn', { active: watchOptions.loop })} onClick={() => changeOptions('loop')} title="loop">
+            <Loop />
+          </div>
+          <div
+            className={cx('btn', { active: watchOptions.shuffle })}
+            onClick={() => changeOptions('shuffle')}
+            title="shuffle"
+          >
+            <Shuffle />
+          </div>
+          <div title="Save playlist" onClick={savePlaylist}>
+            <AddToPlaylist />
+          </div>
+        </div>
+        <div className={cx('items') + ' scroll'} ref={videosContainerRef}>
+          {playlistVideos.contents.map((video, index) => {
+            const { hour, min, sec } = secToHMS(video.video.lengthSeconds);
             return (
               <Link
                 to={`/watch/playlist/${playlistId}/${video.video.videoId}`}
@@ -65,10 +106,8 @@ function PlaylistVideos({ playlistVideos, updateData }) {
                   <img src={video.video.thumbnails[video.video.thumbnails.length - 1].url} alt="" />
                   <div className={cx('total-time')}>
                     {hour !== 0
-                      ? `${hour}:${formatNumberLowerThan10MustHave0Before(
-                          min,
-                        )}:${formatNumberLowerThan10MustHave0Before(sec)}`
-                      : `${min}:${formatNumberLowerThan10MustHave0Before(sec)}`}
+                      ? `${hour}:${makeTwoDigits(min)}:${makeTwoDigits(sec)}`
+                      : `${min}:${makeTwoDigits(sec)}`}
                   </div>
                 </div>
                 <div className={cx('text')}>
@@ -80,8 +119,9 @@ function PlaylistVideos({ playlistVideos, updateData }) {
               </Link>
             );
           })}
+        </div>
       </div>
-    </div>
+    )
   );
 }
 

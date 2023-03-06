@@ -6,9 +6,11 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
+  height: calc(100% - var(--header-height) * 2 );
   padding: 10px 20px;
   box-sizing: border-box;
   font-size: 13px;
+  overflow-y: scroll;
 }
 
 @media (max-width: 1024px) {

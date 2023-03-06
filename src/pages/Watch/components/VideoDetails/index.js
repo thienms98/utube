@@ -36,7 +36,7 @@ function VideoDetails({ videoDetails, updateData }) {
   return !videoDetails ? (
     'loading...'
   ) : (
-    <div className={cx('wrapper')}>
+    <div className={cx('wrapper') + ' scroll'}>
       <div className={cx('super-title')}>
         {videoDetails.superTitle?.items.map((item, index) => {
           return (
@@ -104,9 +104,9 @@ function VideoDetails({ videoDetails, updateData }) {
 
         <div className={cx('description')}>{videoDetails.description}</div>
 
-        <button className={cx('hide-btn')} onClick={() => setDescriptionVisible((prev) => !prev)}>
-          Show less
-        </button>
+        <div className={cx('hide-btn')} onClick={() => setDescriptionVisible((prev) => !prev)}>
+          {descriptionVisible ? 'Show less' : 'Show more'}
+        </div>
       </div>
     </div>
   );

@@ -1,18 +1,20 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
 import VideoItem from '../../../../components/VideoItem';
 import PlaylistItem from '../../../../components/PlaylistItem';
-import classNames from 'classnames/bind';
-import styles from './RelateContent.module.scss';
 import { shortenNumber } from '../../../../utilities';
 import { options as opt } from '../../../../utilities/apiOpts';
+import { DataContext } from '../../../Watch';
 
+import classNames from 'classnames/bind';
+import styles from './RelateContent.module.scss';
 const cx = classNames.bind(styles);
 
 function RelateContent({ relateContents, updateData }) {
   const params = useParams();
+  const data = useContext(DataContext);
 
   useEffect(() => {
     const options = {
@@ -42,7 +44,10 @@ function RelateContent({ relateContents, updateData }) {
     axios
       .request(options)
       .then((response) => {
-        updateData('relateContents', response.data);
+        updateData('relateContents', {
+          contents: [...data.relateContents.contents, ...response.data.contents],
+          cursorNext: response.data.cursorNext,
+        });
       })
       .catch((error) => {
         console.error(error);
@@ -53,9 +58,10 @@ function RelateContent({ relateContents, updateData }) {
   const cursorNext = relateContents ? relateContents.cursorNext : null;
 
   return (
-    <div className={cx('wrapper')}>
-      {contents
-        ? contents.map((content, index) => {
+    <div className={cx('wrapper') + ' scroll'}>
+      {contents ? (
+        <div className={cx('videos')}>
+          {contents.map((content, index) => {
             return (
               <div className={cx('video')} key={index}>
                 {content.type === 'video' ? (
@@ -81,8 +87,11 @@ function RelateContent({ relateContents, updateData }) {
                 ) : null}
               </div>
             );
-          })
-        : 'loading...'}
+          })}
+        </div>
+      ) : (
+        'loading...'
+      )}
       {cursorNext && (
         <div className={cx('expand-btn')} onClick={loadMoreContents}>
           Load more

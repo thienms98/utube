@@ -1,10 +1,10 @@
 .wrapper{
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  height: 600px;
-  border: 1px solid var(--grayaa);
+  height: 100%;
   background: transparent;
+  padding: 20px;
+  box-sizing: border-box;
   position: relative;
 
   .item{
@@ -17,6 +17,30 @@
     width: 100%;
     z-index: 10;
   }
+
+  .author{
+    font-size: 0.8em;
+  }
+  .order{
+    opacity: 0.8;
+
+    &::before{
+      content: ' - '
+    }
+  }
+
+  .options{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    .btn{
+      color: var(--grayaa);
+    }
+    .active{
+      color: var(--white)
+    }
+  }
 }
 
 
@@ -24,16 +48,8 @@
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
   gap: 5px;
-  padding: 0 20px;
-  
-  &::-webkit-scrollbar{
-    width: 5px;
-    background: var(--white);
-  }
-  &::-webkit-scrollbar-thumb{
-    background: #000;
-  }
 }
 .item{
   display: flex;

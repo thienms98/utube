@@ -55,6 +55,6 @@ export const secToHMS = (totalSec) => {
   return { hour, min, sec };
 };
 
-export const formatNumberLowerThan10MustHave0Before = (num) => {
+export const makeTwoDigits = (num) => {
   return num < 10 ? `0${num}` : num;
 };

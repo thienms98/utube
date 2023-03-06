@@ -9,28 +9,40 @@ import styles from './Header.module.scss';
 const cx = classNames.bind(styles);
 
 function Header({ toggleSidebar }) {
-  // hide input & show icon
-  const [smallInput, setSmallInput] = useState(false);
-  // show overlay while open search box
-  const [overlay, setOverlay] = useState(false);
+  // show search modal small screen
+  const [modal, setModal] = useState(false);
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const resizeHandle = () => {
-      if (document.body.offsetWidth <= 768) {
-        setSmallInput(true);
-      } else {
-        setSmallInput(false);
-        setOverlay(false);
-      }
-    };
-    window.addEventListener('resize', resizeHandle);
+  // useEffect(() => {
+  //   const resizeHandle = () => {
+  //     if (document.body.offsetWidth <= 768) {
+  //       setSmallInput(true);
+  //     } else {
+  //       setSmallInput(false);
+  //       setOverlay(false);
+  //     }
+  //   };
+  //   window.addEventListener('resize', resizeHandle);
 
-    return () => {
-      window.removeEventListener('resize', resizeHandle);
-    };
-  }, []);
-  const minimizeControl = () => {};
+  //   return () => {
+  //     window.removeEventListener('resize', resizeHandle);
+  //   };
+  // }, []);
+
+  const turnModal = (value) => {
+    switch (value) {
+      case 'on':
+        setModal(true);
+        break;
+      case 'off':
+        setModal(false);
+        break;
+      default:
+        setModal((prev) => !prev);
+    }
+  };
+
   return (
     <div className={cx('wrapper')}>
       <div className={cx('logo')}>
@@ -39,21 +51,12 @@ function Header({ toggleSidebar }) {
           content={<Icon.YoutubeLogo onClick={() => navigate('/')} />}
         />
       </div>
-      <div className={cx('search-area', { toggle: overlay })}>
-        <Searchbar
-          smallInput={smallInput}
-          toggleOverlay={() => {
-            setOverlay((prev) => !prev);
-          }}
-          toggleSmallInput={() => {
-            setSmallInput((prev) => !prev);
-          }}
-        />
+      <div className={cx('search-area', { fullscreen: modal })}>
+        <Searchbar modal={modal} turnModal={turnModal} />
         <div
-          className={cx('close-btn', { hidden: !overlay })}
+          className={cx('close-btn', { hidden: !modal })}
           onClick={() => {
-            setOverlay(false);
-            setSmallInput(true);
+            setModal(false);
           }}
         >
           &times;
@@ -61,13 +64,13 @@ function Header({ toggleSidebar }) {
       </div>
 
       <div className={cx('user')}>
-        <div className={cx('create')}>
+        <div className={cx('user-item')}>
           <Icon.Create />
         </div>
-        <div className={cx('more')}>
+        <div className={cx('user-item')}>
           <Icon.More />
         </div>
-        <div className={cx('noti')}>
+        <div className={cx('user-item')}>
           <Icon.Create1 />
         </div>
         <div className={cx('avatar')}>

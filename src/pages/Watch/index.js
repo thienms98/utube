@@ -21,17 +21,24 @@ function Watch({ type }) {
     playlist: {
       title: 'Playlist',
       element: (value) => {
-        return <PlaylistVideos playlistVideos={value} updateData={updateData} />;
+        return (
+          <PlaylistVideos
+            playlistVideos={value}
+            updateData={updateData}
+            watchOptions={watchOptions}
+            changeOptions={changeOptions}
+          />
+        );
       },
     },
     videoDetails: {
-      title: "Video's details",
+      title: 'Details',
       element: (value) => {
         return <VideoDetails videoDetails={value} updateData={updateData} />;
       },
     },
     relateContents: {
-      title: 'Relate contents',
+      title: 'Relates',
       element: (value) => {
         return <RelateContent relateContents={value} updateData={updateData} />;
       },
@@ -39,7 +46,7 @@ function Watch({ type }) {
     comments: {
       title: 'Comments',
       element: (value) => {
-        return <CommentsArea videoId={videoId} comments={value} data={data} updateData={updateData} type={'comment'} />;
+        return <CommentsArea comments={value} updateData={updateData} type={'comment'} />;
       },
     },
   };
@@ -54,12 +61,36 @@ function Watch({ type }) {
     }
     return result;
   });
+  const [watchOptions, setWatchOptions] = useState({
+    loop: false,
+    shuffle: false,
+  });
+  console.log(data);
 
   const updateData = (key, value) => {
     // insertion: ('comments', []) => {comments: []}
     setData((prev) => {
       return { ...prev, [key]: value };
     });
+  };
+  const changeOptions = (opt) => {
+    switch (opt) {
+      case 'loop':
+        setWatchOptions((prev) => {
+          const newOpts = { ...prev };
+          newOpts.loop = !newOpts.loop;
+          return newOpts;
+        });
+        break;
+      case 'shuffle':
+        setWatchOptions((prev) => {
+          const newOpts = { ...prev };
+          newOpts.shuffle = !newOpts.shuffle;
+          return newOpts;
+        });
+        break;
+      default:
+    }
   };
 
   useEffect(() => {
@@ -71,7 +102,7 @@ function Watch({ type }) {
     <DataContext.Provider value={data}>
       <div className={cx('wrapper')}>
         <div className={cx('player')}>
-          <YTPlayer type={type} videoId={videoId} options={{ loop: 0 }}></YTPlayer>
+          <YTPlayer type={type} videoId={videoId} options={{ loop: 0 }} watchOptions={watchOptions}></YTPlayer>
         </div>
         <div className={cx('sidebar', { full: sidebar })}>
           <div
@@ -88,6 +119,7 @@ function Watch({ type }) {
                 <div
                   className={cx('tab-item', { active: tabIndex === tab })}
                   key={tab}
+                  title={tabList[tab].title}
                   onClick={() => {
                     setTabIndex(tab);
                   }}

@@ -9,7 +9,7 @@ import classNames from 'classnames/bind';
 import styles from './Searchbar.module.scss';
 const cx = classNames.bind(styles);
 
-function SearchBar({ smallInput, toggleOverlay, toggleSmallInput }) {
+function SearchBar({ modal, turnModal }) {
   const { searchQuery } = useParams();
   const [value, setValue] = useState(searchQuery || '');
   const [autoComplete, setAutoComplete] = useState(() => {
@@ -45,7 +45,7 @@ function SearchBar({ smallInput, toggleOverlay, toggleSmallInput }) {
   }, [debounce]);
 
   return (
-    <div className={cx('wrapper', { minimize: smallInput })}>
+    <div className={cx('wrapper', { modal: modal })}>
       <div className={cx('input')}>
         <input
           type="text"
@@ -64,20 +64,17 @@ function SearchBar({ smallInput, toggleOverlay, toggleSmallInput }) {
         )}
       </div>
       <div className={cx('icon')}>
+        {/* {modal && <span onClick={() => turnModal('off')}>&lt;</span>} */}
         <span
           onClick={() => {
-            navigate(`/search/${value}`);
+            console.log(modal);
+            if (modal) navigate(`/search/${value}`);
+            else turnModal('on');
           }}
         >
           <Icon.Search />
+          {/* <div className={cx('switch')} onClick></div> */}
         </span>
-        <div
-          className={cx('overlay')}
-          onClick={() => {
-            toggleOverlay();
-            toggleSmallInput();
-          }}
-        ></div>
       </div>
 
       {autoCompleteVisible && autoComplete.length > 0 && (
@@ -111,11 +108,9 @@ function SearchBar({ smallInput, toggleOverlay, toggleSmallInput }) {
         </div>
       )}
 
-      {smallInput || (
-        <div className={cx('voice-search')}>
-          <Icon.VoiceSearch />
-        </div>
-      )}
+      <div className={cx('voice-search')}>
+        <Icon.VoiceSearch />
+      </div>
     </div>
   );
 }

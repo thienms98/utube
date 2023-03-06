@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Comments from './Comments';
 import Loading from '../../../../components/Loading';
 
@@ -6,25 +7,21 @@ import classNames from 'classnames/bind';
 import styles from './CommentsArea.module.scss';
 const cx = classNames.bind(styles);
 
-function CommentsArea({ videoId, comments, updateData, type }) {
-  const { commentsList, filters, totalCommentsCount } = comments || {
-    comments: [],
-    filters: [],
-    totalCommentsCount: 0,
-  };
+function CommentsArea({ comments, updateData, type }) {
+  const { videoId } = useParams();
   const [controls, setControls] = useState(false);
 
   return (
-    <div className={cx('wrapper')}>
+    <div className={cx('wrapper') + ' scroll'}>
       <div className={cx('header')}>
-        <div className={cx('count')}>{`${totalCommentsCount.toLocaleString()} Comments`}</div>
+        <div className={cx('count')}>{`${comments?.totalCommentsCount?.toLocaleString() || 0} Comments`}</div>
         <div className={cx('sort-btn')}>
           <button>
             <div className={cx('text')}>Sort by</div>
             <div className={cx('animate')}></div>
           </button>
           <div className={cx('options')}>
-            {filters.map((opt) => {
+            {comments?.filters?.map((opt) => {
               return (
                 <div className={cx('option', { selected: opt.selected })} key={opt.title}>
                   {opt.title}
@@ -55,17 +52,13 @@ function CommentsArea({ videoId, comments, updateData, type }) {
         </div>
       </div>
       <div className={cx('comments-wrapper')}>
-        {commentsList ? (
-          <Comments
-            updateData={updateData}
-            type={'comment'}
-            comments={commentsList}
-            // channelAvatar={videoDetails.author.avatar.at(-1).url}
-            id={videoId}
-          />
-        ) : (
-          'loading'
-        )}
+        <Comments
+          updateData={updateData}
+          type={'comment'}
+          comments={comments}
+          // channelAvatar={videoDetails.author.avatar.at(-1).url}
+          id={videoId}
+        />
       </div>
     </div>
   );

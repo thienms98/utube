@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { secToHMS, formatNumberLowerThan10MustHave0Before } from '../../../../utilities';
+import { secToHMS, makeTwoDigits } from '../../../../utilities';
 
 import classNames from 'classnames/bind';
 import styles from './PlaylistVideos.module.scss';
@@ -27,11 +27,7 @@ function PlaylistVideos({ playlistItems, playlistId, playlistIndex, indexChangeH
               <div className={cx('thumbnail')}>
                 <img src={video.video.thumbnails[video.video.thumbnails.length - 1].url} alt="" />
                 <div className={cx('total-time')}>
-                  {hour !== 0
-                    ? `${hour}:${formatNumberLowerThan10MustHave0Before(min)}:${formatNumberLowerThan10MustHave0Before(
-                        sec,
-                      )}`
-                    : `${min}:${formatNumberLowerThan10MustHave0Before(sec)}`}
+                  {hour !== 0 ? `${hour}:${makeTwoDigits(min)}:${makeTwoDigits(sec)}` : `${min}:${makeTwoDigits(sec)}`}
                 </div>
               </div>
               <div className={cx('text')}>

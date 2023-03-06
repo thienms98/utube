@@ -1,28 +1,47 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import * as Icon from '../../assets/icon';
 import MenuItem from '../../components/MenuItem';
+import { PersonalPlaylists } from '../../utilities/personalPlaylists';
+
 import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
-
 const cx = classNames.bind(styles);
 
 function Sidebar({ toggleSidebar }) {
   const [activeItem, setActiveItem] = useState('Home');
+  const [playlists, setPlaylists] = useState(() => {
+    const { playlists } = PersonalPlaylists.get();
+    return {
+      list: playlists,
+      hidden: true,
+    };
+  });
+  console.log(playlists.list);
 
-  const main = [
-    { icon: <Icon.Home />, content: 'Home' },
-    { icon: <Icon.Explore />, content: 'Explore' },
-    { icon: <Icon.Shorts />, content: 'Shorts' },
-    { icon: <Icon.Subscription />, content: 'Subscription' },
-  ];
+  const changePlaylistsVisible = () => {
+    setPlaylists((prev) => {
+      console.log({ ...prev, hidden: !prev.hidden });
+      return { ...prev, hidden: !prev.hidden };
+      // return prev;
+    });
+  };
 
-  const personal = [
-    { icon: <Icon.Library />, content: 'Library' },
-    { icon: <Icon.History />, content: 'History' },
-    { icon: <Icon.YourVideo />, content: 'YourVideo' },
-    { icon: <Icon.WatchLater />, content: 'WatchLater' },
-    { icon: <Icon.Liked />, content: 'Liked videos' },
-    { icon: <Icon.DownArrow />, content: 'Show more' },
+  const [main, personal] = [
+    [
+      { icon: <Icon.Home />, content: 'Home', path: '/' },
+      { icon: <Icon.Explore />, content: 'Explore', path: '' },
+      { icon: <Icon.Shorts />, content: 'Shorts', path: '' },
+      { icon: <Icon.Subscription />, content: 'Subscription', path: '' },
+    ],
+    [
+      { icon: <Icon.Library />, content: 'Library', path: '' },
+      { icon: <Icon.History />, content: 'History', path: '' },
+      { icon: <Icon.YourVideo />, content: 'YourVideo', path: '' },
+      { icon: <Icon.WatchLater />, content: 'WatchLater', path: '/playlist/WL' },
+      { icon: <Icon.Liked />, content: 'Liked videos', path: '' },
+    ],
   ];
   return (
     <nav>
@@ -30,35 +49,56 @@ function Sidebar({ toggleSidebar }) {
         <MenuItem icon={<Icon.Hamburger onClick={toggleSidebar} />} content={<Icon.YoutubeLogo />} />
       </div>
       <div className={cx('main')}>
-        {main.map(({ icon, content }, index) => {
+        {main.map(({ icon, content, path }, index) => {
           return (
-            <MenuItem
-              icon={icon}
-              content={content}
-              active={activeItem === content}
-              key={index}
-              itemEvent={() => {
-                console.log('clicked');
+            <div
+              className={cx('item')}
+              onClick={() => {
                 setActiveItem(content);
               }}
-            />
+              key={index}
+            >
+              <Link to={path}>
+                <MenuItem icon={icon} content={content} active={activeItem === content} key={index} />
+              </Link>
+            </div>
           );
         })}
+        {playlists.hidden ||
+          playlists.list.map((item, index) => {
+            return (
+              <div className={cx('item', 'playlist')} key={index} onClick={changePlaylistsVisible}>
+                <Link to={`/playlist/${item.playlistId}`}>
+                  <MenuItem
+                    icon={item.type === 'youtube' ? <Icon.Playlist /> : <Icon.Playlist2 />}
+                    content={item.title}
+                  />
+                </Link>
+              </div>
+            );
+          })}
+        <div className={cx('item')} onClick={changePlaylistsVisible}>
+          <MenuItem
+            icon={<Icon.DownArrow style={{ transform: `rotate(${playlists.hidden ? 0 : 180})deg` }} />}
+            content={'Show more'}
+          />
+        </div>
       </div>
       <div className={cx('line')}></div>
       <div className={cx('personal')}>
-        {personal.map(({ icon, content }, index) => {
+        {personal.map(({ icon, content, path }, index) => {
           return (
-            <MenuItem
-              icon={icon}
-              content={content}
-              active={activeItem === content}
-              key={index}
-              itemEvent={() => {
-                console.log('clicked');
+            <div
+              className={cx('item')}
+              onClick={() => {
                 setActiveItem(content);
               }}
-            />
+              key={index}
+            >
+              <Link to={path}>
+                <MenuItem icon={icon} content={content} active={activeItem === content} key={index} />
+              </Link>
+            </div>
           );
         })}
       </div>

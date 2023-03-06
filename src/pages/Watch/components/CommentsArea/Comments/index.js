@@ -1,14 +1,16 @@
 import axios from 'axios';
-import { useEffect, Fragment } from 'react';
+import { useContext, useEffect, Fragment } from 'react';
 import Comment from '../Comment';
 import { options as opt } from '../../../../../utilities/apiOpts';
+import { DataContext } from '../../..';
 
 import classNames from 'classnames/bind';
 import styles from './Comments.module.scss';
 const cx = classNames.bind(styles);
 
-function Comments({ id, comments, data, updateData, type }) {
+function Comments({ id, comments, updateData, type }) {
   const channelAvatar = '';
+  const data = useContext(DataContext);
   useEffect(() => {
     const options = {
       ...opt,
@@ -28,17 +30,14 @@ function Comments({ id, comments, data, updateData, type }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const commentList = comments ? comments.comments : null;
-  const crsNext = comments ? comments.cursorNext : null;
-
   const fetchComment = (id, cursor) => {
     const options = {
       ...opt,
       url: 'https://youtube138.p.rapidapi.com/video/comments/',
-      params: { cursor: crsNext, hl: 'en', gl: 'US' },
+      params: { cursor: comments.cursorNext, hl: 'en', gl: 'US' },
     };
 
-    if (crsNext)
+    if (comments.cursorNext)
       axios
         .request(options)
         .then(function (response) {
@@ -54,8 +53,8 @@ function Comments({ id, comments, data, updateData, type }) {
 
   return (
     <>
-      {commentList
-        ? commentList.map((comment) => {
+      {comments?.comments
+        ? comments.comments.map((comment) => {
             return (
               <Fragment key={comment.commentId}>
                 <Comment channelAvatar={channelAvatar} data={data} comment={comment} updateData={updateData} />
@@ -63,7 +62,7 @@ function Comments({ id, comments, data, updateData, type }) {
             );
           })
         : 'loading...'}
-      {crsNext ? (
+      {comments?.cursorNext ? (
         <div
           className={cx('expand')}
           // onClick={fetchComment}

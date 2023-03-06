@@ -9,6 +9,8 @@
   --white: #fff;
   --grayaa: #aaa;
   --blue: #3DA6FF;
+
+  --header-height: 50px;
 }
 
 html{
@@ -30,4 +32,12 @@ input:focus{
 a{
   color: inherit;
   text-decoration: none;
+}
+
+.scroll::-webkit-scrollbar{
+  width: 8px;
+  background: var(--white);
+}
+.scroll::-webkit-scrollbar-thumb{
+  background: #000;
 }

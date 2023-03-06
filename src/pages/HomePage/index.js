@@ -34,7 +34,7 @@ function HomePage() {
       <div className={cx('shortcuts')}>
         <Shortcut shortcuts={shortcuts} />
       </div>
-      <div className={cx('videos')}>
+      <div className={cx('videos') + ' scroll'}>
         {homepageItems.map((item, i) => {
           const { type, thumbnail, title, author, views, publishTime } = item;
           const id = type === 'video' ? item.videoId : item.playlistId;

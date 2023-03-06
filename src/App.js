@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import Watch from './pages/Watch';
 import Channel from './pages/Channel';
 import SearchResult from './pages/SeachResult';
+import Playlist from './pages/Playlist';
 import NotFound from './pages/NotFound';
 
 import classNames from 'classnames/bind';
@@ -16,18 +17,18 @@ const cx = classNames.bind(styles);
 export const UserContext = createContext(null);
 
 export default function App() {
-  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
   const [user, setUser] = useState({
     name: '',
     avatar: `https://picsum.photos/id/${Math.random() * 1000}/200`,
   });
-  const location = useLocation();
+  // const location = useLocation();
 
-  useEffect(() => {
-    if (location.pathname.includes('watch') || location.pathname === '/') {
-      setSidebarVisible(false);
-    } else setSidebarVisible(true);
-  }, [location]);
+  // useEffect(() => {
+  //   if (location.pathname.includes('watch')) {
+  //     setSidebarVisible(false);
+  //   } else setSidebarVisible(true);
+  // }, [location]);
 
   const toggleSidebar = () => {
     setSidebarVisible((prev) => !prev);
@@ -54,6 +55,7 @@ export default function App() {
               <Route path=":videoId" element={<Watch type={'playlist'} />}></Route>
             </Route>
             <Route path="/channel/:channelId/*" element={<Channel />}></Route>
+            <Route path="/playlist/:playlistId" element={<Playlist />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </main>
