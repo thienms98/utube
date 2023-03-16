@@ -10,6 +10,10 @@ import Channel from './pages/Channel';
 import SearchResult from './pages/SeachResult';
 import Playlist from './pages/Playlist';
 import NotFound from './pages/NotFound';
+import PlaylistList from './components/PlaylistList';
+import Library from './pages/Library';
+
+import { PersonalPlaylists } from './utilities/personalPlaylists';
 
 import classNames from 'classnames/bind';
 import styles from './App.module.scss';
@@ -20,8 +24,13 @@ export default function App() {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [user, setUser] = useState({
     name: '',
-    avatar: `https://picsum.photos/id/${Math.random() * 1000}/200`,
+    avatar: `https://picsum.photos/id/65/200`,
   });
+  // init  library
+  useEffect(() => {
+    PersonalPlaylists.init();
+  }, []);
+
   // const location = useLocation();
 
   // useEffect(() => {
@@ -56,6 +65,8 @@ export default function App() {
             </Route>
             <Route path="/channel/:channelId/*" element={<Channel />}></Route>
             <Route path="/playlist/:playlistId" element={<Playlist />}></Route>
+            <Route path="/library" element={<Library />}></Route>
+
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </main>

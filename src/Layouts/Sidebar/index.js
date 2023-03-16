@@ -12,19 +12,16 @@ const cx = classNames.bind(styles);
 function Sidebar({ toggleSidebar }) {
   const [activeItem, setActiveItem] = useState('Home');
   const [playlists, setPlaylists] = useState(() => {
-    const { playlists } = PersonalPlaylists.get();
+    const playlists = PersonalPlaylists.get();
     return {
       list: playlists,
       hidden: true,
     };
   });
-  console.log(playlists.list);
 
   const changePlaylistsVisible = () => {
     setPlaylists((prev) => {
-      console.log({ ...prev, hidden: !prev.hidden });
       return { ...prev, hidden: !prev.hidden };
-      // return prev;
     });
   };
 
@@ -33,14 +30,14 @@ function Sidebar({ toggleSidebar }) {
       { icon: <Icon.Home />, content: 'Home', path: '/' },
       { icon: <Icon.Explore />, content: 'Explore', path: '' },
       { icon: <Icon.Shorts />, content: 'Shorts', path: '' },
-      { icon: <Icon.Subscription />, content: 'Subscription', path: '' },
+      { icon: <Icon.Subscription />, content: 'Subscription', path: '/subcription' },
     ],
     [
-      { icon: <Icon.Library />, content: 'Library', path: '' },
-      { icon: <Icon.History />, content: 'History', path: '' },
+      { icon: <Icon.Library />, content: 'Library', path: '/library' },
+      { icon: <Icon.History />, content: 'History', path: '/history' },
       { icon: <Icon.YourVideo />, content: 'YourVideo', path: '' },
       { icon: <Icon.WatchLater />, content: 'WatchLater', path: '/playlist/WL' },
-      { icon: <Icon.Liked />, content: 'Liked videos', path: '' },
+      { icon: <Icon.Liked />, content: 'Liked videos', path: '/liked' },
     ],
   ];
   return (

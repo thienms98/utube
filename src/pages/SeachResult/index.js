@@ -4,7 +4,9 @@ import { useParams } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import SearchItem from './SearchItem';
 import FilterGroups from './FilterGroups';
+import SearchItemOption from './SearchItemOption';
 
+import { options } from '../../utilities/apiOpts';
 import { example } from './example';
 
 import classNames from 'classnames/bind';
@@ -13,7 +15,7 @@ const cx = classNames.bind(styles);
 
 function SearchResult() {
   const [result, setResult] = useState(null);
-  const [filterVisible, setFilterVisible] = useState(false);
+  const [chosenItem, setChosenItem] = useState(null);
   const params = useParams();
 
   useEffect(() => {
@@ -26,20 +28,13 @@ function SearchResult() {
   const fetchWithCursor = (cursor) => {
     console.log('fetch with cursor: ', cursor);
   };
+  const optionHandler = (value) => {
+    setChosenItem(value);
+  };
 
   return (
     <div className={cx('wrapper')}>
-      <div className={cx('toggler')}>
-        <div
-          className={cx('btn')}
-          onClick={() => {
-            setFilterVisible((prev) => !prev);
-          }}
-        >
-          Filter
-        </div>
-      </div>
-      <FilterGroups visible={filterVisible} />
+      <FilterGroups />
       {example.didYouMean && (
         <div className={cx('search-params')}>
           <div className={cx('did-you-mean')}>Searching results for {example.didYouMean}</div>
@@ -49,7 +44,19 @@ function SearchResult() {
       <div className={cx('results')}>
         {result ? (
           result.contents.map((content, index) => {
-            return <SearchItem content={content} key={index} />;
+            return (
+              <div className={cx('results-item')} key={index} data-index={index}>
+                <SearchItem content={content} key={index} />
+                <div className={cx('options')}>
+                  <SearchItemOption
+                    content={content}
+                    chosen={index === chosenItem}
+                    optionHandler={optionHandler}
+                    index={index}
+                  />
+                </div>
+              </div>
+            );
           })
         ) : (
           <Loading />

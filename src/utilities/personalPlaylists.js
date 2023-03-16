@@ -1,79 +1,110 @@
 import { v4 as uuidv4 } from 'uuid';
 export class PersonalPlaylists {
+  static init() {
+    let local = localStorage.getItem('playlists');
+    if (!local) {
+      local = [{ playlistId: 'WL', title: 'Watch later', contents: [] }];
+      this.save(local);
+    }
+  }
+
   static save(playlists) {
     localStorage.setItem('playlists', JSON.stringify(playlists));
   }
 
-  static get(id) {
-    const ls = localStorage.getItem('playlists') || '[]';
-    let playlists = JSON.parse(ls);
-    let msg = 'First create playlists';
-    this.save(playlists);
-
-    // return playlist with name
-    if (id) {
-      const playlist = playlists.find((list) => list.playlistId === id);
-      if (!playlist) {
-        msg = `Failed. No playlist id ${id}`;
-        return null;
-      }
-      let { title, contents, type, playlistId } = playlist;
-      contents = contents
-        ? playlist.contents.map((videoId) => {
-            return JSON.parse(localStorage.getItem(videoId));
-          })
-        : null;
-      msg = 'ok';
-      return { msg, playlist: { playlistId, title, contents, type } };
-    }
-
-    // return all playlists
-    else msg = 'get playlists ok';
-    return { msg, playlists };
+  static get() {
+    const local = localStorage.getItem('playlists');
+    let playlists = JSON.parse(local);
+    return [...playlists];
   }
 
-  static createPlaylist = (playlistId = uuidv4(), title, type = 'self', contents = []) => {
+  static find({ id, title }) {
+    if (!id && !title) return null;
+
+    // return playlist with id
+    const playlists = this.get();
+    let playlist;
+    if (id) playlist = playlists.find((list) => list.playlistId === id);
+    else playlist = playlists.find((list) => list.title === title);
+    if (!playlist) return null;
+
+    let contents = playlist.contents;
+    contents = contents
+      ? playlist.contents.map((videoId) => {
+          return JSON.parse(localStorage.getItem(videoId));
+        })
+      : null;
+    return { ...playlist, contents };
+  }
+  static findIndex({ id, title }) {
+    if (!id && !title) return null;
+
+    // return playlist with id
+    const playlists = this.get();
+    let index;
+    if (id) index = playlists.findIndex((list) => list.playlistId === id);
+    else index = playlists.findIndex((list) => list.title === title);
+    return index;
+  }
+
+  static createPlaylist = (title, playlistId = uuidv4(), type = 'self', contents = []) => {
     // init playlists
-    const { playlists } = this.get();
-    let msg = '';
+    const playlists = this.get();
 
-    // name exists => throw error
-    if (playlists.findIndex((pl) => pl.title === title) !== -1) {
-      msg = 'playlist name existed';
-      return { msg, playlists };
+    // youtube playlist
+    if (type === 'youtube') playlists.push({ playlistId, title, type: 'youtube', contents });
+
+    // user self-create playlist
+    // name exists => new name
+    let newTitle = title;
+    if (this.find({ title })) {
+      let indexTitle = 1;
+      while (this.find({ title: newTitle })) {
+        indexTitle++;
+        newTitle = `${title} ${indexTitle}`;
+      }
     }
-    if (type) playlists.push({ playlistId, title, type: 'youtube' });
-    else playlists.push({ playlistId, title, contents });
-
+    playlists.push({ title: newTitle, playlistId, type, contents });
     this.save(playlists);
-    msg = 'ok';
-    return { msg, playlists };
+    return playlists;
   };
 
-  static updatePlaylist(action, playlistName, value) {
-    let msg = '';
-    const { playlists } = this.get();
-    const playlistIndex = playlists.findIndex((item) => item.title === playlistName);
+  static removePlaylist({ id, title }) {
+    const playlists = this.get();
 
-    if (playlistIndex === -1) msg = 'playlist not found';
+    const playlistIndex = this.findIndex({ id, title });
+    if (playlistIndex !== -1) playlists.splice(playlistIndex, 1);
+    this.save(playlists);
+  }
+
+  // chua fix
+  static updatePlaylists(action, { id, title }, video) {
+    const playlists = this.get();
+
+    const playlistIndex = this.findIndex({ id, title });
+    const content = playlists[playlistIndex].contents;
+
+    if (playlistIndex === -1) return;
+    if (!video) return;
+
     switch (action) {
       case 'add':
-        if (playlists[playlistIndex].contents.includes(value.videoId)) {
-          msg = 'duplicate video';
-          break;
-        }
-        playlists[playlistIndex].contents.push(value.videoId);
-        localStorage.setItem(value.videoId, JSON.stringify(value));
-        msg = `ok`;
+        if (!content.includes(video.videoId)) playlists[playlistIndex].contents.push(video.videoId);
+
+        if (localStorage.getItem(video.videoId)) localStorage.setItem(video.videoId, JSON.stringify(video));
+
         break;
       case 'delete':
-        playlists.splice(playlistIndex, 1);
-        msg = `ok`;
+        const delPos = content.indexOf(video.videoId);
+        if (delPos > -1) playlists[playlistIndex].contents.splice(delPos, 1);
+        this.save(playlists);
+
         break;
       default:
+        return;
     }
     this.save(playlists);
-    return { msg, playlists };
+    return playlists;
   }
 }
 

@@ -1,0 +1,40 @@
+.wrapper{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: #000;
+  color: #fff;
+  z-index: 30;
+}
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgb(0 0 0 / .3);
+  z-index: 29;
+}
+
+.list-item{
+  display: flex;
+  flex-direction: row;
+}
+.checkbox{
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border: 1px solid rgb(0 0 0 / .3);
+
+  &.checked{
+    background: #333;
+    &::before{
+      content: 'x';
+      color: #fff;
+    }
+  }
+}

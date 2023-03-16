@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArtistVerified, Verified } from '../../../assets/icon';
 import { shortenNumber, secToHMS, makeTwoDigits } from '../../../utilities';
-import { PersonalPlaylists } from '../../../utilities/personalPlaylists';
 
 import classNames from 'classnames/bind';
 import styles from './SearchItem.module.scss';
@@ -10,7 +9,6 @@ const cx = classNames.bind(styles);
 
 export default function SearchItem({ content }) {
   const [thumbnails, setThumbnails] = useState('thumbnails');
-  const [optionsView, setOptionView] = useState(false);
   const type = content.type;
   const { hour, min, sec } = secToHMS(content.video.lengthSeconds);
   let length = hour ? `${hour}:${makeTwoDigits(min)}}` : `${min}` + `:${makeTwoDigits(sec)}`;
@@ -54,33 +52,6 @@ export default function SearchItem({ content }) {
             </div>
           </div>
         </Link>
-        <div className={cx('options')}>
-          <div
-            className={cx('icon')}
-            onClick={() => {
-              setOptionView((prev) => !prev);
-            }}
-          ></div>
-          <div className={cx('dropdown', optionsView ? 'shown' : 'hidden')}>
-            <div
-              className={cx('dropdown-item')}
-              onClick={() => {
-                PersonalPlaylists.updatePlaylist('add', 'WL', {
-                  videoId: content.video.videoId,
-                  title: content.video.title,
-                  author: content.video.author.title,
-                  thumbnails: content.video.thumbnails.at(-1).url,
-                  views: shortenNumber(content.video.stats.views),
-                  publishedTimeText: content.video.publishedTimeText,
-                });
-                setOptionView((prev) => !prev);
-              }}
-            >
-              Watch later
-            </div>
-            <div className={cx('dropdown-item')}>Save to</div>
-          </div>
-        </div>
       </div>
     )
   );

@@ -1,15 +1,11 @@
 nav{
   background: var(--black18);
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 220px;
   height: 100vh;
   padding-top: 16px;
   padding-right: 20px;
   box-sizing: border-box;
   transform-origin: left;
-  border: 1px solid rgb(255 255 255 / 0.4)
 }
 
 .logo{
@@ -22,7 +18,7 @@ nav{
 }
 .main > *,
 .personal > *{
-
+  border-radius: 8px;
   overflow: hidden;
 
   &:hover{
