@@ -13,6 +13,32 @@
   overflow-y: scroll;
 }
 
+.video{
+  opacity: 0;
+}
+.video.reveal{
+  animation-name: reveal;
+  animation-duration: 1s;
+  animation-delay: calc(0.05s * var(--delay));
+  animation-fill-mode: forwards;
+}
+
+@keyframes reveal{
+  0%{
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  60%{
+    opacity: 0;
+    transform: translateY(calc(60px * .6));
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+
+  }
+}
+
 @media (max-width: 1024px) {
   .videos{
     grid-template-columns: repeat(3, 1fr);

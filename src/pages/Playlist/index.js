@@ -40,7 +40,7 @@ export default function Playlist() {
 
   return (
     playlist && (
-      <div className={cx('wrapper')}>
+      <div className={cx('wrapper') + ' scroll'}>
         <h1 style={{ textAlign: 'center' }}>{playlist.title}</h1>
         <div className={cx('playlists')}>
           {playlist.contents.length > 0

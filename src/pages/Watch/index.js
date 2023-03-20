@@ -106,12 +106,15 @@ function Watch({ type }) {
         </div>
         <div className={cx('sidebar', { full: sidebar })}>
           <div
-            className={cx('toggler')}
+            className={cx('toggler', { flip: sidebar })}
             onClick={() => {
               setSidebar((sb) => !sb);
             }}
           >
-            {sidebar ? <>&gt;</> : <>&lt;</>}
+            <div className={cx('icon')}>
+              <div className={cx('arrow')} style={{ '--index': 0 }}></div>
+              <div className={cx('arrow')} style={{ '--index': 1 }}></div>
+            </div>
           </div>
           <div className={cx('tabs')}>
             {Object.keys(tabList).map((tab) => {

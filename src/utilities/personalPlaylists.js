@@ -91,7 +91,7 @@ export class PersonalPlaylists {
       case 'add':
         if (!content.includes(video.videoId)) playlists[playlistIndex].contents.push(video.videoId);
 
-        if (localStorage.getItem(video.videoId)) localStorage.setItem(video.videoId, JSON.stringify(video));
+        if (!localStorage.getItem(video.videoId)) localStorage.setItem(video.videoId, JSON.stringify(video));
 
         break;
       case 'delete':

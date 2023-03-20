@@ -7,6 +7,7 @@ const cx = classNames.bind(styles);
 
 function Videos({ videos, author, avatar }) {
   const { contents, cursorNext } = videos;
+  console.log(videos);
   return (
     <div className={cx('wrapper')}>
       {contents.map(({ type, video }) => {
@@ -19,7 +20,7 @@ function Videos({ videos, author, avatar }) {
               author={author}
               avatar={avatar}
               views={shortenNumber(video.stats.views)}
-              date={video.publishedTimeText}
+              publishTime={video.publishedTimeText}
             />
           );
       })}

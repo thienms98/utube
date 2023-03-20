@@ -6,6 +6,7 @@ import styles from './PlaylistList.module.scss';
 const cx = classNames.bind(styles);
 
 export default function PlaylistList({ videoDetail, unmount }) {
+  console.log(videoDetail);
   const { videoId } = videoDetail;
   const [playlists, setPlaylists] = useState(() => {
     const playlists = PersonalPlaylists.get();

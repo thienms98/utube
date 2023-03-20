@@ -82,9 +82,6 @@ function VideoDetails({ videoDetails, updateData }) {
           <div className={cx('share')}></div>
           <div className={cx('more-option')}></div>
         </div>
-        <div className={cx('description')}>
-          <div className={cx('views-and-time')}></div>
-        </div>
       </div>
 
       <div className={cx('description-wrapper', { clip: !descriptionVisible })}>

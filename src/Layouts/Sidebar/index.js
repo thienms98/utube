@@ -41,7 +41,7 @@ function Sidebar({ toggleSidebar }) {
     ],
   ];
   return (
-    <nav>
+    <nav className="scroll">
       <div className={cx('logo')}>
         <MenuItem icon={<Icon.Hamburger onClick={toggleSidebar} />} content={<Icon.YoutubeLogo />} />
       </div>
@@ -50,6 +50,7 @@ function Sidebar({ toggleSidebar }) {
           return (
             <div
               className={cx('item')}
+              style={{ '--delay': index }}
               onClick={() => {
                 setActiveItem(content);
               }}
@@ -74,7 +75,7 @@ function Sidebar({ toggleSidebar }) {
               </div>
             );
           })}
-        <div className={cx('item')} onClick={changePlaylistsVisible}>
+        <div className={cx('item')} onClick={changePlaylistsVisible} style={{ '--delay': 1 }}>
           <MenuItem
             icon={<Icon.DownArrow style={{ transform: `rotate(${playlists.hidden ? 0 : 180})deg` }} />}
             content={'Show more'}
@@ -87,6 +88,7 @@ function Sidebar({ toggleSidebar }) {
           return (
             <div
               className={cx('item')}
+              style={{ '--delay': index }}
               onClick={() => {
                 setActiveItem(content);
               }}

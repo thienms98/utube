@@ -1,0 +1,35 @@
+.playlists{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: scroll;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.playlist{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 300px;
+
+  &>a{
+    flex:1;
+  }
+  &:hover .btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.btn{
+  display: none;
+  width: 2em;
+  height: 2em;
+  border-radius: 1em;
+
+  &.del:hover{
+    color: red
+  }
+}

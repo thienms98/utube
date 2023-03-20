@@ -17,6 +17,7 @@ function SearchResult() {
   const [result, setResult] = useState(null);
   const [chosenItem, setChosenItem] = useState(null);
   const params = useParams();
+  document.title = `${params.query} - Utube`;
 
   useEffect(() => {
     let timeOut = setTimeout(() => {
@@ -41,7 +42,7 @@ function SearchResult() {
           <div className={cx('original-search')}>Searching instead of {params.query}</div>
         </div>
       )}
-      <div className={cx('results')}>
+      <div className={cx('results') + ' scroll'}>
         {result ? (
           result.contents.map((content, index) => {
             return (

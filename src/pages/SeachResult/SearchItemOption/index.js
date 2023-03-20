@@ -22,6 +22,7 @@ export default function SearchItemOption({ content, index, chosen, optionHandler
       document.removeEventListener('click', closeMenu);
     };
   }, []);
+
   return (
     <div className={cx('wrapper')}>
       <div
