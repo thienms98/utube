@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { PersonalPlaylists } from '../../utilities/personalPlaylists';
 
 import classNames from 'classnames/bind';
@@ -19,7 +19,7 @@ export default function PlaylistList({ videoDetail, unmount }) {
   });
   const [create, setCreate] = useState(false);
   const [newPlaylistName, setNewPlaylistName] = useState('');
-  useEffect(() => {}, []);
+  const inputRef = useRef();
 
   const changeSaveStatus = (index) => {
     setPlaylists((prev) => {
@@ -33,6 +33,10 @@ export default function PlaylistList({ videoDetail, unmount }) {
       return newPlaylists;
     });
   };
+
+  useEffect(() => {
+    if (create) inputRef.current.focus();
+  }, [create]);
 
   return (
     <>
@@ -67,15 +71,17 @@ export default function PlaylistList({ videoDetail, unmount }) {
                 PersonalPlaylists.createPlaylist(newPlaylistName);
               }}
             >
-              <label htmlFor="newPlaylist">Name</label>
+              <label htmlFor="newPlaylist">Playlist's name</label>
               <input
                 type="text"
                 id="newPlaylist"
                 onChange={(e) => {
                   setNewPlaylistName(e.target.value);
                 }}
+                ref={inputRef}
+                tabIndex={1}
               />
-              <input type="submit" value="Create" />
+              <input type="submit" value="Create" tabIndex={2} />
             </form>
           ) : (
             <span onClick={() => setCreate(true)}>+ Create new playlist</span>

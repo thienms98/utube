@@ -65,7 +65,6 @@ function Watch({ type }) {
     loop: false,
     shuffle: false,
   });
-  console.log(data);
 
   const updateData = (key, value) => {
     // insertion: ('comments', []) => {comments: []}

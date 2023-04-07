@@ -27,15 +27,4 @@ function VideoItem({ id, title, thumbnailUrl, author, avatar, views, publishTime
   );
 }
 
-// VideoItem.propTypes = {
-//   id: PropTypes.string.isRequired,
-//   title: PropTypes.string.isRequired,
-//   thumbnailUrl: PropTypes.string.isRequired,
-//   author: PropTypes.string.isRequired,
-//   avatar: PropTypes.string.isRequired,
-//   views: PropTypes.string.isRequired,
-//   publishTime: PropTypes.string.isRequired,
-//   horizontal: PropTypes.bool,
-// };
-
 export default VideoItem;

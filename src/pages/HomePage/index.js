@@ -50,11 +50,11 @@ function HomePage() {
   };
 
   useEffect(() => {
+    document.title = 'Utube';
     revealOnScroll();
   }, []);
 
   useEffect(() => {
-    console.log(lastAmount.current, amount);
     lastAmount.current = amount;
   }, [amount]);
 

@@ -36,23 +36,6 @@ export default function SearchItemOption({ content, index, chosen, optionHandler
         <div
           className={cx('dropdown-item')}
           onClick={() => {
-            PersonalPlaylists.updatePlaylist('add', 'WL', {
-              videoId: content.video.videoId,
-              title: content.video.title,
-              author: content.video.author.title,
-              thumbnails: content.video.thumbnails.at(-1).url,
-              views: shortenNumber(content.video.stats.views),
-              publishedTimeText: content.video.publishedTimeText,
-            });
-            const value = chosen ? null : index;
-            optionHandler(value);
-          }}
-        >
-          Watch later
-        </div>
-        <div
-          className={cx('dropdown-item')}
-          onClick={() => {
             setSaveList(true);
           }}
         >

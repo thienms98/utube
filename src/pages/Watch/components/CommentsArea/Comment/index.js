@@ -26,7 +26,6 @@ function Comment({ channelAvatar, comment, updateData, data }) {
       axios
         .request(options)
         .then((response) => {
-          console.log(response.data);
           // insert replies to comment selected
           const index = data.comments?.comments.findIndex((cmt) => cmt.commentId === commentId);
           const cmt = { ...data.comments.comments[index], replies: response.data };
@@ -85,9 +84,7 @@ function Comment({ channelAvatar, comment, updateData, data }) {
               className={cx('header')}
               onClick={() => {
                 setRepliesVisible((prev) => !prev);
-                console.log(comment.replies);
                 if (!comment.replies) {
-                  console.log('fetching...');
                   fetchReplies();
                 }
               }}

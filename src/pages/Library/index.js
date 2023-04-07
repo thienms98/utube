@@ -46,13 +46,20 @@ export default function Library() {
       </button>
       <div className={cx('playlists') + ' scroll'}>
         {playlists.map((playlist) => {
+          if (playlist.title === 'Watch later') return <></>;
           return (
             <div className={cx('playlist')}>
               <Link to={`/playlist/${playlist.playlistId}`}>{playlist.title}</Link>
               <div className={cx('btn', 'edit')}>
                 <FontAwesomeIcon icon={faPenToSquare} />
               </div>
-              <div className={cx('btn', 'del')}>
+              <div
+                className={cx('btn', 'del')}
+                onClick={() => {
+                  PersonalPlaylists.removePlaylist({ title: playlist.title });
+                  setPlaylists(PersonalPlaylists.get());
+                }}
+              >
                 <FontAwesomeIcon icon={faXmark} />
               </div>
             </div>

@@ -70,6 +70,7 @@ export class PersonalPlaylists {
   };
 
   static removePlaylist({ id, title }) {
+    console.log('removing');
     const playlists = this.get();
 
     const playlistIndex = this.findIndex({ id, title });

@@ -63,10 +63,7 @@ function Comments({ id, comments, updateData, type }) {
           })
         : 'loading...'}
       {comments?.cursorNext ? (
-        <div
-          className={cx('expand')}
-          // onClick={fetchComment}
-        >
+        <div className={cx('expand')} onClick={fetchComment}>
           Show more replies
         </div>
       ) : null}

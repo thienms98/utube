@@ -54,7 +54,7 @@ function SearchBar({ modal, turnModal }) {
             setValue(e.target.value);
           }}
           placeholder="Search ..."
-          // onBlur={() => setAutoCompleteVisible(false)}
+          onBlur={() => setAutoCompleteVisible(false)}
           onFocus={() => setAutoCompleteVisible(true)}
         />
         {debounce && (

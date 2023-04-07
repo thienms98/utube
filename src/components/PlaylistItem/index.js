@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 function PlaylistItem({ id, title, thumbnailUrl, author, hor = false }) {
   const navigate = useNavigate();
   return (
-    <Link to={`/watching/playlist/${id}`}>
+    <Link to={`/watch/playlist/${id}`}>
       <div
         className={cx('wrapper', { horizontal: hor })}
         onClick={() => {
